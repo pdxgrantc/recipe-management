@@ -7,7 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Pages
 import Dashboard from './pages/dashboard/Dashboard';
-import MyRecipes from './pages/My-Recipes/MyRecipes';
+import MyRecipes from './pages/MyRecipes/MyRecipes';
 import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
 import MyRecipe from './pages/Recipe/MyRecipe';
 import Settings from './pages/Settings/Settings';

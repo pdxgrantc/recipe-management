@@ -17,7 +17,7 @@ export default function MyRecipe() {
         if (user) {
             const recipesRef = collection(db, 'users', user.uid, 'recipes');
             const recipesQuery = query(recipesRef, orderBy('dateUpdated', 'desc'), limit(10));
-    
+
             const unsubscribe = onSnapshot(recipesQuery, (snapshot) => {
                 const recipesList = snapshot.docs.map(doc => ({
                     id: doc.id,
@@ -25,12 +25,12 @@ export default function MyRecipe() {
                 }));
                 setRecipes(recipesList);
             });
-    
+
             // Cleanup subscription on unmount
             return () => unsubscribe();
         }
     }, [user]);
-    
+
 
     return (
         <>
@@ -49,16 +49,15 @@ function Recipes({ recipes }) {
     return (
         <div>
             {recipes.map((recipe, index) => (
-                <Recipe key={index} recipe={recipe} index={index} />
+                <Recipe key={index} recipe={recipe} />
             ))}
         </div>
     )
 }
 
-function Recipe({ recipe, index }) {
+function Recipe({ recipe }) {
     return (
         <Link to={"/recipe/my/" + recipe.id}>
-            <p>{index}</p>
             <SubTitle text={recipe.title} />
             <p>{recipe.description}</p>
             <Ingredients ingredients={recipe.ingredients} />

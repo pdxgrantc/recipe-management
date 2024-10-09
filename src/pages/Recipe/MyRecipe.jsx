@@ -5,11 +5,18 @@ import { useParams } from 'react-router-dom'
 import { auth, db } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
+
+// Components
 import Recipe from './Recipe';
+import EditRecipe from './EditRecipe';
+
+// Utils
+import { PageDisplay } from '../../assets/Utils';
 
 
 export default function MyRecipe() {
   const [user] = useAuthState(auth);
+  const [editing, setEditing] = useState(false);
   const { id } = useParams();
 
   const [recipe, setRecipe] = useState(null);
@@ -17,7 +24,9 @@ export default function MyRecipe() {
   useEffect(() => {
     const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
     const unsubscribe = onSnapshot(recipeRef, (doc) => {
-      setRecipe(doc.data());
+      const recipeNoId = doc.data();
+      recipeNoId.id = doc.id;
+      setRecipe(recipeNoId);
     });
 
     return () => unsubscribe();
@@ -25,6 +34,8 @@ export default function MyRecipe() {
 
 
   return (
-    <Recipe recipe={recipe} />
+    <PageDisplay>
+      {editing ? <EditRecipe recipe={recipe} setEditing={setEditing} /> : <Recipe recipe={recipe} setEditing={setEditing} />}
+    </PageDisplay>
   )
 }
