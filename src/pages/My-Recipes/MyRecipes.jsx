@@ -30,8 +30,6 @@ export default function MyRecipe() {
             return () => unsubscribe();
         }
     }, [user]);
-
-    console.log(recipes);
     
 
     return (
