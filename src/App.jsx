@@ -6,7 +6,7 @@ import { auth, SignIn, SignOut } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Pages
-import Dashboard from './pages/Dashboard/Dashboard';
+import Dashboard from './pages/dashboard/Dashboard';
 import MyRecipes from './pages/My-Recipes/MyRecipes';
 import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
 import Settings from './pages/Settings/Settings';
