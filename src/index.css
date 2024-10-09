@@ -83,3 +83,9 @@ table {
     width: 100%;
     left: 0;
 }
+
+.text-button {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { auth, db } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
+import Recipe from './Recipe';
 
 
 export default function MyRecipe() {
@@ -24,14 +25,6 @@ export default function MyRecipe() {
 
 
   return (
-    <div>
-      {recipe && (
-        <div>
-          <h1>{recipe.title}</h1>
-          <p>{recipe.description}</p>
-        </div>
-      )}
-    </div>  
-  
+    <Recipe recipe={recipe} />
   )
 }
