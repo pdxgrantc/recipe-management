@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { auth, db } from '../firebase'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
