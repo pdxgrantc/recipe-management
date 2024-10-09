@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 // Firebase
 import { auth, db } from '../../firebase';
@@ -16,16 +17,22 @@ export default function MyRecipe() {
         if (user) {
             const recipesRef = collection(db, 'users', user.uid, 'recipes');
             const recipesQuery = query(recipesRef, orderBy('dateUpdated', 'desc'), limit(10));
-
+    
             const unsubscribe = onSnapshot(recipesQuery, (snapshot) => {
-                const recipesList = snapshot.docs.map(doc => doc.data());
+                const recipesList = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
                 setRecipes(recipesList);
             });
-
+    
             // Cleanup subscription on unmount
             return () => unsubscribe();
         }
     }, [user]);
+
+    console.log(recipes);
+    
 
     return (
         <>
@@ -50,15 +57,15 @@ function Recipes({ recipes }) {
     )
 }
 
-function Recipe({ recipe, index}) {
+function Recipe({ recipe, index }) {
     return (
-        <div>
+        <Link to={"/recipe/my/" + recipe.id}>
             <p>{index}</p>
             <SubTitle text={recipe.title} />
             <p>{recipe.description}</p>
             <Ingredients ingredients={recipe.ingredients} />
             <Steps steps={recipe.steps} />
-        </div>
+        </Link>
     )
 }
 

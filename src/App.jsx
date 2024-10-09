@@ -9,6 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import Dashboard from './pages/dashboard/Dashboard';
 import MyRecipes from './pages/My-Recipes/MyRecipes';
 import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
+import MyRecipe from './pages/Recipe/MyRecipe';
 import Settings from './pages/Settings/Settings';
 
 // icons
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/my-recipes" element={<MyRecipes />} />
           <Route path="/create-recipe" element={<CreateRecipe />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/recipe/my/:id" element={<MyRecipe />} />
         </Route>
       </Routes>
     </BrowserRouter>
@@ -110,7 +112,7 @@ const OutsideLink = ({ children, link }) => {
       href={link}
       target="_blank"
       rel="noreferrer"
-      className="buttons center w-fit flex gap-3 mt-1 hover:text-white hover:mt-0 hover:mb-1 font-semibold transition-all durration-300 ease-in-out"
+      className="buttons center w-fit flex gap-3 mt-1 hover:text-white hover:mt-0 hover:mb-1 font-semibold transition-all duration-300 ease-in-out"
     >
       {children}
     </a>
