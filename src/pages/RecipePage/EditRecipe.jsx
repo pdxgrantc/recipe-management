@@ -14,6 +14,7 @@ import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 
 // Utils
 import { SwitchButton, SubTitle } from '../../assets/Utils';
+import FileUpload from '../../assets/FileUpload';
 
 
 export default function EditRecipe({ recipe, setEditing }) {
@@ -117,6 +118,7 @@ export default function EditRecipe({ recipe, setEditing }) {
                     </button>
                 </div>
             </div>
+            <FileUpload />
             <div className='flex flex-col gap-2'>
                 <SubTitle text='Ingredients' />
                 {ingredients.length !== 0 &&

@@ -37,7 +37,6 @@ export default function MyRecipe() {
     return () => unsubscribe();
   }, [id]);
 
-
   return (
     <PageDisplay>
       {editing ? <EditRecipe recipe={recipe} setEditing={setEditing} /> : <Recipe recipe={recipe} setEditing={setEditing} />}
