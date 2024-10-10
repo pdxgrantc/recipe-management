@@ -23,8 +23,6 @@ const db = getFirestore(app);
 
 // My Helper Functions For Export
 const SignIn = async () => {
-    console.log('signing in');
-
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 

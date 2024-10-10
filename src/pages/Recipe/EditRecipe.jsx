@@ -62,8 +62,6 @@ export default function EditRecipe({ recipe, setEditing }) {
             sharedGlobal: recipe.sharedGlobal
         }
 
-        console.log(updatedRecipe);
-
         // add recipe to firebase
         const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
         await setDoc(recipeRef, updatedRecipe);
