@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 
 // Firebase
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { db } from '../../firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 
 // Icons
 import { FaRegSave as SaveIcon } from "react-icons/fa";
@@ -26,6 +26,8 @@ export default function EditRecipe({ recipe, setEditing }) {
     const [description, setDescription] = useState(recipe.description);
     const [ingredients, setIngredients] = useState(recipe.ingredients);
     const [steps, setSteps] = useState(recipe.steps);
+
+    const [goToMyRecipes, setGoToMyRecipes] = useState(false);
 
     const handleAddIngredient = () => {
         setIngredients([...ingredients, { amount: '', unit: '', ingredient: '' }]);
@@ -75,6 +77,24 @@ export default function EditRecipe({ recipe, setEditing }) {
         setEditing(false);
     }
 
+    const handleCancel = () => {
+        // exit edit mode
+        setEditing(false);
+    }
+
+    const handleDelete = async () => {
+        // delete recipe from firebase
+        const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
+        await deleteDoc(recipeRef);
+
+        // redirect to my recipes
+        setGoToMyRecipes(true);
+    }
+
+    if (goToMyRecipes) {
+        return <Navigate to='/my-recipes' />
+    }
+
     return (
         <>
             <div className='flex gap-5'>
@@ -84,11 +104,11 @@ export default function EditRecipe({ recipe, setEditing }) {
                 </div>
                 <div className='flex flex-col'>
                     <SwitchButton text='Share' onClick={() => { }} />
-                    <button name='Cancel' className='text-button page-button'>
+                    <button name='Cancel' className='text-button page-button' onClick={handleCancel}>
                         <p>Cancel</p>
                         <CancelIcon />
                     </button>
-                    <button name='delete recipe' className='text-button page-button'>
+                    <button name='delete recipe' className='text-button page-button' onClick={handleDelete}>
                         <p>Delete</p>
                         <DeleteIcon />
                     </button>
