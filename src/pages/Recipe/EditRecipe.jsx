@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom';
 
 // Firebase
 import { auth } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { db } from '../../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 // Icons
 import { FaRegSave as SaveIcon } from "react-icons/fa";
 import { MdOutlineDeleteOutline as DeleteIcon } from "react-icons/md";
 import { MdOutlineCancel as CancelIcon } from "react-icons/md";
-
 
 // Utils
 import { SwitchButton, SubTitle } from '../../assets/Utils';
@@ -16,6 +18,9 @@ import { SwitchButton, SubTitle } from '../../assets/Utils';
 
 export default function EditRecipe({ recipe, setEditing }) {
     const [user] = useAuthState(auth);
+
+    // get recipe id from url   
+    const { id } = useParams();
 
     const [title, setTitle] = useState(recipe.title);
     const [description, setDescription] = useState(recipe.description);
@@ -43,12 +48,32 @@ export default function EditRecipe({ recipe, setEditing }) {
         setSteps(newSteps);
     }
 
-    const handleSubmit = async () => {
-        console.log('submitting');
+    const handleUpdateRecipe = async () => {
+        // create firebase compatible date
+        const date = new Date();
+
+        const updatedRecipe = {
+            dateCreated: recipe.dateCreated,
+            dateUpdated: date,
+            title: title,
+            description: description,
+            ingredients: ingredients,
+            steps: steps,
+            sharedGlobal: recipe.sharedGlobal
+        }
+
+        console.log(updatedRecipe);
+
+        // add recipe to firebase
+        const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
+        await setDoc(recipeRef, updatedRecipe);
 
     }
 
     const handleEdit = () => {
+        // update recipe in firebase
+        handleUpdateRecipe();
+        // exit edit mode
         setEditing(false);
     }
 
@@ -130,9 +155,6 @@ export default function EditRecipe({ recipe, setEditing }) {
                     </ul>
                 }
                 <button onClick={handleAddStep} className='text-button page-button'>Add Step</button>
-            </div>
-            <div>
-                <button onClick={handleSubmit} className='text-button page-button'>Submit</button>
             </div>
         </>
     )
