@@ -27,6 +27,8 @@ export default function EditRecipe({ recipe, setEditing }) {
     const [ingredients, setIngredients] = useState(recipe?.ingredients);
     const [steps, setSteps] = useState(recipe?.steps);
 
+    console.log(ingredients);
+
     const [goToMyRecipes, setGoToMyRecipes] = useState(false);
 
     const handleAddIngredient = () => {
@@ -128,12 +130,19 @@ export default function EditRecipe({ recipe, setEditing }) {
                                     newIngredients[index].amount = e.target.value;
                                     setIngredients(newIngredients);
                                 }} />
-                                <select name="Ingredient Measurement Type">
-                                    <option value="unit">Unit</option>
+                                <select
+                                    name="Ingredient Measurement Type"
+                                    value={ingredient.unit}
+                                    onChange={(e) => {
+                                        const newIngredients = [...ingredients];
+                                        newIngredients[index].unit = e.target.value;
+                                        setIngredients(newIngredients);
+                                    }}
+                                >
                                     <option value="cup">Cup</option>
                                     <option value="tbsp">Tbsp</option>
                                     <option value="tsp">Tsp</option>
-                                    <option value="fluid-oz">Fluid oz</option>
+                                    <option value="fluid oz">Fluid oz</option>
                                     <option value="g">G</option>
                                     <option value="kg">Kg</option>
                                     <option value="lb">Lb</option>
