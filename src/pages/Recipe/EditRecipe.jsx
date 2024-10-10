@@ -27,8 +27,6 @@ export default function EditRecipe({ recipe, setEditing }) {
     const [ingredients, setIngredients] = useState(recipe?.ingredients);
     const [steps, setSteps] = useState(recipe?.steps);
 
-    console.log(ingredients);
-
     const [goToMyRecipes, setGoToMyRecipes] = useState(false);
 
     const handleAddIngredient = () => {
