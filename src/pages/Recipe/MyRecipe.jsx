@@ -24,9 +24,14 @@ export default function MyRecipe() {
   useEffect(() => {
     const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
     const unsubscribe = onSnapshot(recipeRef, (doc) => {
-      const recipeNoId = doc.data();
-      recipeNoId.id = doc.id;
-      setRecipe(recipeNoId);
+      if (doc.exists()) {
+        const recipeNoId = doc.data();
+        recipeNoId.id = doc.id;
+        setRecipe(recipeNoId);
+      } else {
+        // Handle the case where the document does not exist
+        setRecipe(null); // or any other appropriate action
+      }
     });
 
     return () => unsubscribe();

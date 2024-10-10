@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Navigate } from 'react-router-dom';
 
 // Firebase
 import { auth, db } from '../../firebase';
@@ -29,6 +30,8 @@ function CreateForm() {
     const [description, setDescription] = useState('');
     const [ingredients, setIngredients] = useState([{ amount: '', unit: '', ingredient: '' }]);
     const [steps, setSteps] = useState(['']);
+
+    const [goToNeNewRecipe, setGoToNewRecipe] = useState([false, '']);
 
     const handleAddIngredient = () => {
         setIngredients([...ingredients, { amount: '', unit: '', ingredient: '' }]);
@@ -66,7 +69,14 @@ function CreateForm() {
         }
 
         const recipeRef = collection(db, 'users', user.uid, 'recipes');
-        await addDoc(recipeRef, recipe);
+        const docRef = await addDoc(recipeRef, recipe);
+        const recipeId = docRef.id;
+
+        setGoToNewRecipe([true, ("/recipe/my/" + recipeId)]);
+    }
+
+    if (goToNeNewRecipe[0]) {
+        return <Navigate to={goToNeNewRecipe[1]} />
     }
 
     return (
@@ -79,27 +89,47 @@ function CreateForm() {
                     <ul>
                         {ingredients.map((ingredient, index) => (
                             <li key={index} className='flex items-center gap-2'>
-                                <input name="Ingredient Amount" type="number" placeholder="Amount" value={ingredient.amount} onChange={(e) => {
-                                    const newIngredients = [...ingredients];
-                                    newIngredients[index].amount = e.target.value;
-                                    setIngredients(newIngredients);
-                                }} />
-                                <select name="Ingredient Measurement Type">
+                                <input
+                                    name="Ingredient Amount"
+                                    type="number"
+                                    placeholder="Amount"
+                                    value={ingredient.amount}
+                                    onChange={(e) => {
+                                        const newIngredients = [...ingredients];
+                                        newIngredients[index].amount = e.target.value;
+                                        setIngredients(newIngredients);
+                                    }}
+                                />
+                                <select
+                                    name="Ingredient Measurement Type"
+                                    value={ingredient.measurementType}
+                                    onChange={(e) => {
+                                        const newIngredients = [...ingredients];
+                                        newIngredients[index].unit = e.target.value;
+                                        setIngredients(newIngredients);
+                                    }}
+                                >
                                     <option value="unit">Unit</option>
                                     <option value="cup">Cup</option>
                                     <option value="tbsp">Tbsp</option>
                                     <option value="tsp">Tsp</option>
-                                    <option value="fluid-oz">Fluid oz</option>
+                                    <option value="fluid oz">Fluid oz</option>
                                     <option value="g">G</option>
                                     <option value="kg">Kg</option>
                                     <option value="lb">Lb</option>
                                     <option value='ml'>Ml</option>
                                 </select>
-                                <input name="Ingredient Name" type="text" placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => {
-                                    const newIngredients = [...ingredients];
-                                    newIngredients[index].ingredient = e.target.value;
-                                    setIngredients(newIngredients);
-                                }} />
+                                <input
+                                    name="Ingredient Name"
+                                    type="text"
+                                    placeholder="Ingredient"
+                                    value={ingredient.ingredient}
+                                    onChange={(e) => {
+                                        const newIngredients = [...ingredients];
+                                        newIngredients[index].ingredient = e.target.value;
+                                        setIngredients(newIngredients);
+                                    }}
+                                />
                                 <button className='icon-button'>
                                     <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteIngredient(index)} />
                                 </button>

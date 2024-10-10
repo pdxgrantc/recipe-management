@@ -22,10 +22,10 @@ export default function EditRecipe({ recipe, setEditing }) {
     // get recipe id from url   
     const { id } = useParams();
 
-    const [title, setTitle] = useState(recipe.title);
-    const [description, setDescription] = useState(recipe.description);
-    const [ingredients, setIngredients] = useState(recipe.ingredients);
-    const [steps, setSteps] = useState(recipe.steps);
+    const [title, setTitle] = useState(recipe?.title);
+    const [description, setDescription] = useState(recipe?.description);
+    const [ingredients, setIngredients] = useState(recipe?.ingredients);
+    const [steps, setSteps] = useState(recipe?.steps);
 
     const [goToMyRecipes, setGoToMyRecipes] = useState(false);
 
@@ -67,7 +67,6 @@ export default function EditRecipe({ recipe, setEditing }) {
         // add recipe to firebase
         const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
         await setDoc(recipeRef, updatedRecipe);
-
     }
 
     const handleEdit = () => {
