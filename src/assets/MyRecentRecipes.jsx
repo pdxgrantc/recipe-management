@@ -8,6 +8,7 @@ import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestor
 // Utils
 import MyRecipeList from './MyRecipeList';
 
+
 export default function MyRecentRecipes({ numRecipes }) {
     const [user] = useAuthState(auth);
     const [recipes, setRecipes] = useState([]);
