@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react'
-
-// Utils
-import { PageDisplay, PageHeader } from '../../assets/Utils'
+import React, { useState } from 'react'
 
 // Firebase
 import { auth, db } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, setDoc, getDoc, addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 
+// Utils
+import { PageDisplay, PageHeader, SubTitle } from '../../assets/Utils'
+
+// Icons
+import { MdOutlineCancel as DeleteIcon } from "react-icons/md";
 
 export default function CreateRecipe() {
     return (
@@ -32,8 +34,21 @@ function CreateForm() {
         setIngredients([...ingredients, { amount: '', unit: '', ingredient: '' }]);
     }
 
+    const handleDeleteIngredient = (index) => {
+        const newIngredients = [...ingredients];
+        newIngredients.splice(index, 1);
+        setIngredients(newIngredients
+        );
+    }
+
     const handleAddStep = () => {
         setSteps([...steps, '']);
+    }
+
+    const handleDeleteStep = (index) => {
+        const newSteps = [...steps];
+        newSteps.splice(index, 1);
+        setSteps(newSteps);
     }
 
     const handleSubmit = async () => {
@@ -46,22 +61,23 @@ function CreateForm() {
             title,
             description,
             ingredients,
-            steps
+            steps,
+            sharedGlobal: false
         }
 
-        const recipeRef = await addDoc(collection(db, 'users', user.uid, 'recipes'), recipe);
+        const recipeRef = collection(db, 'users', user.uid, 'recipes');
+        await addDoc(recipeRef, recipe);
     }
 
     return (
         <>
             <input name="Recipe Title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
             <textarea name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-            <div>
-                <h3>Ingredients</h3>
-                <button onClick={handleAddIngredient}>Add Ingredient</button>
+            <div className='flex flex-col gap-2'>
+                <SubTitle text='Ingredients' />
                 <ul>
                     {ingredients.map((ingredient, index) => (
-                        <li key={index}>
+                        <li key={index} className='flex items-center gap-2'>
                             <input name="Ingredient Amount" type="number" placeholder="Amount" value={ingredient.amount} onChange={(e) => {
                                 const newIngredients = [...ingredients];
                                 newIngredients[index].amount = e.target.value;
@@ -83,13 +99,16 @@ function CreateForm() {
                                 newIngredients[index].ingredient = e.target.value;
                                 setIngredients(newIngredients);
                             }} />
+                            <button className='icon-button'>
+                                <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteIngredient(index)} />
+                            </button>
                         </li>
                     ))}
                 </ul>
+                <button onClick={handleAddIngredient} className='text-button page-button'>Add Ingredient</button>
             </div>
-            <div>
-                <h3>Instructions</h3>
-                <button onClick={handleAddStep}>Add Step</button>
+            <div className='flex flex-col gap-2'>
+                <SubTitle text='Instructions' />
                 <ul>
                     {steps.map((step, index) => (
                         <li key={index}>
@@ -98,12 +117,16 @@ function CreateForm() {
                                 newSteps[index] = e.target.value;
                                 setSteps(newSteps);
                             }} />
+                            <button className='icon-button'>
+                                <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteStep(index)} />
+                            </button>
                         </li>
                     ))}
                 </ul>
+                <button onClick={handleAddStep} className='text-button page-button'>Add Step</button>
             </div>
             <div>
-                <button onClick={handleSubmit}>Submit</button>
+                <button onClick={handleSubmit} className='text-button page-button'>Submit</button>
             </div>
         </>
     )

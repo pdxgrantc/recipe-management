@@ -6,7 +6,12 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Icons
 import { FaRegSave as SaveIcon } from "react-icons/fa";
-import { MdDeleteForever as DeleteIcon } from "react-icons/md";
+import { MdOutlineDeleteOutline as DeleteIcon } from "react-icons/md";
+import { MdOutlineCancel as CancelIcon } from "react-icons/md";
+
+
+// Utils
+import { SwitchButton } from '../../assets/Utils';
 
 
 export default function EditRecipe({ recipe, setEditing }) {
@@ -23,13 +28,18 @@ export default function EditRecipe({ recipe, setEditing }) {
                     <div className='flex justify-between gap-2'>
                         <h1>{recipe.title}</h1>
                         <div className='flex gap-5'>
-                            <button name='toggle edit' className='text-button page-button' onClick={handleEdit}>
-                                <p>Save</p>
-                                <SaveIcon />
+                            <SwitchButton text='Share' onClick={() => { }} />
+                            <button name='Cancel' className='text-button page-button'>
+                                <p>Cancel</p>
+                                <CancelIcon />
                             </button>
                             <button name='delete recipe' className='text-button page-button'>
                                 <p>Delete</p>
                                 <DeleteIcon />
+                            </button>
+                            <button name='toggle edit' className='text-button page-button' onClick={handleEdit}>
+                                <p>Save</p>
+                                <SaveIcon />
                             </button>
                         </div>
                     </div>

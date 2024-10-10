@@ -31,10 +31,6 @@ export default function Recipe({ recipe, setEditing }) {
                             <p>Edit</p>
                             <EditIcon />
                         </button>
-                        <button name='delete recipe' className='text-button page-button'>
-                            <p>Delete</p>
-                            <DeleteIcon />
-                        </button>
                     </div>
                 </div>
                 <p>{recipe.description}</p>

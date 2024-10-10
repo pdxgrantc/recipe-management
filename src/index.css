@@ -89,4 +89,16 @@ table {
     gap: 0.5rem;
     align-items: center;
     height: fit-content;
+    width: fit-content;
+}
+
+.icon-button {
+    position: relative;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    font-weight: 500;
+}
+
+.icon-button:hover {
+    color: white;
 }

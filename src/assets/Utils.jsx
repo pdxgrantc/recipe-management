@@ -53,3 +53,11 @@ export function TableHeader({ text }) {
         <h3 className='text-tableHeader font-bold'>{text}</h3>
     )
 }
+
+export function SwitchButton({ text, onClick }) {
+    return (
+        <button name={text} className='text-button page-button' onClick={onClick}>
+            <p>{text}</p>
+        </button>
+    )
+}
