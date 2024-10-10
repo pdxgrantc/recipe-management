@@ -1,15 +1,20 @@
 import React from 'react'
 
-import { SignOut } from '../../firebase';
+// Components
+import MyRecentRecipes from '../../assets/MyRecentRecipes';
 
 // Utils
-import { PageDisplay, PageHeader } from '../../assets/Utils';
+import { PageDisplay, PageHelmet, SubTitle } from '../../assets/Utils';
 
 export default function Dashboard() {
     return (
         <>
-            <PageHeader title='Dashboard' />
+            <PageHelmet title={"Dashboard"} />
             <PageDisplay>
+                <div>
+                    <SubTitle text='Recently Updated Recipes' />
+                </div>
+                <MyRecentRecipes numRecipes={5} />
             </PageDisplay>
         </>
     )

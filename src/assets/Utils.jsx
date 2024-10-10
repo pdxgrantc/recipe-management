@@ -2,7 +2,6 @@ import React from 'react'
 
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
-
 export function PageDisplay({ children }) {
     return (
         <>
@@ -39,6 +38,16 @@ export function PageHeader({ title }) {
 
             <h1 className='text-pageTitle font-bold'>{title}</h1>
         </>
+    )
+}
+
+export function PageHelmet({ title }) {
+    return (
+        <HelmetProvider>
+            <Helmet>
+                <title>Ez recipe - {title}</title>
+            </Helmet>
+        </HelmetProvider>
     )
 }
 

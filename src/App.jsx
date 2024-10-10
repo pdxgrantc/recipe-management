@@ -9,7 +9,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import Dashboard from './pages/dashboard/Dashboard';
 import MyRecipes from './pages/MyRecipes/MyRecipes';
 import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
-import MyRecipe from './pages/Recipe/MyRecipe';
+import MyRecipe from './pages/RecipePage/MyRecipe';
 import Settings from './pages/Settings/Settings';
 
 // icons

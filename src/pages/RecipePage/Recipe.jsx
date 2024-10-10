@@ -12,7 +12,7 @@ import { MdDeleteForever as DeleteIcon } from "react-icons/md";
 import { PageHeader, SubTitle } from '../../assets/Utils';
 
 
-export default function Recipe({ recipe, setEditing }) {
+export default function RecipePage({ recipe, setEditing }) {
     const [user] = useAuthState(auth);
 
     const handleEdit = () => {
