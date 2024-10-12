@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+
+// Firebase
+import { auth, storage } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { ref, uploadBytesResumable } from 'firebase/storage';
+
+// Utils
+import { v4 as uuidv4 } from 'uuid';
 
 // Icons
 import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 
 export default function AddImageToRecipe() {
+  const [user] = useAuthState(auth);
+
+  // get the id of the recipe from the url
+  const recipeID = useParams().id;
+
   const [file, setFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showUploadProgress, setShowUploadProgress] = useState(false);
@@ -32,8 +45,8 @@ export default function AddImageToRecipe() {
 
     setShowUploadProgress(true);
 
-    const storage = getStorage();
-    const storageRef = ref(storage, `files/${file.name}`);
+    const randomName = uuidv4(); // Generate a random name
+    const storageRef = ref(storage, `users/${user.uid}/recipes/${recipeID}/${randomName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
