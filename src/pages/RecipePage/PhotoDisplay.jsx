@@ -1,11 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+// Icons
+import { LuChevronLeftCircle as PreviousIcon } from "react-icons/lu";
+import { LuChevronRightCircle as NextIcon } from "react-icons/lu";
+
 
 export default function PhotoDisplay({ photoURLs }) {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const handleNext = () => {
+        if (currentIndex < photoURLs.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+        } else {
+            setCurrentIndex(0);
+        }
+    }
+
+    const handlePrev = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        } else {
+            setCurrentIndex(photoURLs.length - 1);
+        }
+    }
+
     return (
-        <div>
-            {photoURLs.map((url, index) => (
-                <img key={index} src={url} alt={`Recipe ${index}`} />
-            ))}
+        <div className='w-fit'>
+            <div className='w-[30rem] h-[25rem] flex items-center justify-center'>
+                <img src={photoURLs[currentIndex]} alt='recipe' className='rounded w-full h-auto' />
+            </div>
+            <div className='flex justify-between items-center gap-2 w-[15rem] mx-auto'>
+                <button onClick={handlePrev}>
+                    <PreviousIcon className='w-10 h-auto page-button' />
+                </button>
+                <div>
+                    <p>{currentIndex + 1}/{photoURLs.length}</p>
+                </div>
+                <button onClick={handleNext}>
+                    <NextIcon className='w-10 h-auto page-button' />
+                </button>
+            </div>
         </div>
     )
 }

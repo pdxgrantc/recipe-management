@@ -59,8 +59,11 @@ export default function MyRecipe() {
 
   return (
     <PageDisplay>
-      {editing ? <EditRecipe recipe={recipe} setEditing={setEditing} /> : <Recipe recipe={recipe} setEditing={setEditing} />}
-      <PhotoDisplay photoURLs={photoURLs} />
+      {editing ?
+        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} />
+        :
+        <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} />
+      }
     </PageDisplay>
   );
 }

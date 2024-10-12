@@ -6,13 +6,15 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Icons
 import { FaRegEdit as EditIcon } from "react-icons/fa";
-import { MdDeleteForever as DeleteIcon } from "react-icons/md";
+
+// Components
+import PhotoDisplay from './PhotoDisplay';
 
 // Utils
 import { PageHeader, SubTitle } from '../../assets/Utils';
 
 
-export default function RecipePage({ recipe, setEditing }) {
+export default function RecipePage({ recipe, setEditing, photoURLs }) {
     const [user] = useAuthState(auth);
 
     const handleEdit = () => {
@@ -33,8 +35,18 @@ export default function RecipePage({ recipe, setEditing }) {
                         </button>
                     </div>
                 </div>
-                <p>{recipe.description}</p>
-            </div>
+                {(recipe.description === '' || photoURLs.length === 0) ?
+                    <>
+                        {recipe.description !== '' && <p>{recipe.description}</p>}
+                        {photoURLs.length !== 0 && <PhotoDisplay photoURLs={photoURLs} />}
+                    </>
+                    :
+                    <div className='grid grid-cols-2'>
+                        <p>{recipe.description}</p>
+                        <PhotoDisplay photoURLs={photoURLs} />
+                    </div>
+                }
+            </div >
             <Ingredients ingredients={recipe.ingredients} />
             <Steps steps={recipe.steps} />
             <Notes notes={recipe.notes} />
