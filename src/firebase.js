@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
@@ -20,6 +21,7 @@ const app = initializeApp(firebaseConfig);
 // Firebase Items For Export
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage();
 
 // My Helper Functions For Export
 const SignIn = async () => {
@@ -51,4 +53,4 @@ const SignOut = () => {
     signOut(auth);
 }
 
-export { auth, db, SignIn, SignOut };
+export { auth, db, storage, SignIn, SignOut };
