@@ -30,6 +30,7 @@ function CreateForm() {
     const [description, setDescription] = useState('');
     const [ingredients, setIngredients] = useState([{ amount: '', unit: '', ingredient: '' }]);
     const [steps, setSteps] = useState(['']);
+    const [notes, setNotes] = useState('');
 
     const [goToNeNewRecipe, setGoToNewRecipe] = useState([false, '']);
 
@@ -65,6 +66,7 @@ function CreateForm() {
             description,
             ingredients,
             steps,
+            notes,
             sharedGlobal: false
         }
 
@@ -158,6 +160,10 @@ function CreateForm() {
                     </ul>
                 }
                 <button onClick={handleAddStep} className='text-button page-button'>Add Step</button>
+            </div>
+            <div>
+                <SubTitle text='Notes' />
+                <textarea name="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div>
                 <button onClick={handleSubmit} className='text-button page-button'>Submit</button>

@@ -14,7 +14,7 @@ import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 
 // Utils
 import { SwitchButton, SubTitle } from '../../assets/Utils';
-import FileUpload from '../../assets/FileUpload';
+import AddImageToRecipe from '../../assets/AddImageToRecipe';
 
 
 export default function EditRecipe({ recipe, setEditing }) {
@@ -27,6 +27,7 @@ export default function EditRecipe({ recipe, setEditing }) {
     const [description, setDescription] = useState(recipe?.description);
     const [ingredients, setIngredients] = useState(recipe?.ingredients);
     const [steps, setSteps] = useState(recipe?.steps);
+    const [notes, setNotes] = useState(recipe?.notes);
 
     const [goToMyRecipes, setGoToMyRecipes] = useState(false);
 
@@ -62,6 +63,7 @@ export default function EditRecipe({ recipe, setEditing }) {
             description: description,
             ingredients: ingredients,
             steps: steps,
+            notes: notes,
             sharedGlobal: recipe.sharedGlobal
         }
 
@@ -118,7 +120,7 @@ export default function EditRecipe({ recipe, setEditing }) {
                     </button>
                 </div>
             </div>
-            <FileUpload />
+            <AddImageToRecipe />
             <div className='flex flex-col gap-2'>
                 <SubTitle text='Ingredients' />
                 {ingredients.length !== 0 &&
@@ -181,6 +183,10 @@ export default function EditRecipe({ recipe, setEditing }) {
                     </ul>
                 }
                 <button onClick={handleAddStep} className='text-button page-button'>Add Step</button>
+            </div>
+            <div>
+                <SubTitle text='Notes' />
+                <textarea name="Notes" placeholder="Notes" className='h-fit w-60' value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
         </>
     )

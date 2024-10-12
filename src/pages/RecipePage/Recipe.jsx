@@ -37,6 +37,7 @@ export default function RecipePage({ recipe, setEditing }) {
             </div>
             <Ingredients ingredients={recipe.ingredients} />
             <Steps steps={recipe.steps} />
+            <Notes notes={recipe.notes} />
         </>
     )
 }
@@ -72,5 +73,14 @@ function Steps({ steps }) {
 function Step({ step, number }) {
     return (
         <p>{number}. {step}</p>
+    )
+}
+
+function Notes({ notes }) {
+    return (
+        <div>
+            <SubTitle text='Notes' />
+            <p>{notes}</p>
+        </div>
     )
 }

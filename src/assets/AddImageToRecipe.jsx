@@ -5,7 +5,7 @@ import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 // Icons
 import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 
-const FileUpload = () => {
+export default function AddImageToRecipe() {
   const [file, setFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showUploadProgress, setShowUploadProgress] = useState(false);
@@ -91,5 +91,3 @@ const FileUpload = () => {
     </div>
   );
 };
-
-export default FileUpload;
