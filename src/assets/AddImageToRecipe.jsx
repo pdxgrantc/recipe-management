@@ -43,6 +43,20 @@ export default function AddImageToRecipe() {
       return;
     }
 
+    // check if the file is an image
+    if (!file.type.startsWith('image/')) {
+      setErrorMessage('Only image files are allowed.');
+      return;
+    }
+
+    // Check file size limit (10MB)
+    const fileSizeLimit = 10 * 1024 * 1024; // 10MB in bytes
+    if (file.size > fileSizeLimit) {
+      setErrorMessage('File size exceeds the 10MB limit.');
+      return;
+    }
+
+
     setShowUploadProgress(true);
 
     const randomName = uuidv4(); // Generate a random name
@@ -67,7 +81,7 @@ export default function AddImageToRecipe() {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col">
       <div
         {...getRootProps()}
         className="border-4 border-dashed border-gray-400 p-6 text-center cursor-pointer w-64 rounded"
@@ -91,14 +105,16 @@ export default function AddImageToRecipe() {
             Upload
           </button>
           {showUploadProgress && (
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-              <div
-                className="bg-blue-500 h-2.5 rounded-full"
-                style={{ width: `${uploadProgress}%` }}
-              ></div>
-            </div>
+            <>
+              <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                <div
+                  className="bg-blue-500 h-2.5 rounded-full"
+                  style={{ width: `${uploadProgress}%` }}
+                ></div>
+              </div>
+              <p>{uploadProgress.toFixed(0)}%</p>
+            </>
           )}
-          <p>{uploadProgress.toFixed(2)}%</p>
         </div>
       )}
     </div>
