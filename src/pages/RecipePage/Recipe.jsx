@@ -49,7 +49,7 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
             </div >
             <Ingredients ingredients={recipe.ingredients} />
             <Steps steps={recipe.steps} />
-            <Notes notes={recipe.notes} />
+            {recipe.notes !== '' && <Notes notes={recipe.notes} />}
         </>
     )
 }

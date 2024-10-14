@@ -116,9 +116,10 @@ function CreateForm() {
                                     <option value="tbsp">Tbsp</option>
                                     <option value="tsp">Tsp</option>
                                     <option value="fluid oz">Fluid oz</option>
+                                    <option value="lb">Lb</option>
+                                    <option value="oz">Oz</option>
                                     <option value="g">G</option>
                                     <option value="kg">Kg</option>
-                                    <option value="lb">Lb</option>
                                     <option value='ml'>Ml</option>
                                 </select>
                                 <input

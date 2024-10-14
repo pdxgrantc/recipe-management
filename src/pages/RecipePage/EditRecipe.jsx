@@ -145,10 +145,12 @@ export default function EditRecipe({ recipe, setEditing }) {
                                     <option value="tbsp">Tbsp</option>
                                     <option value="tsp">Tsp</option>
                                     <option value="fluid oz">Fluid oz</option>
+                                    <option value="lb">Lb</option>
+                                    <option value='oz'>L</option>
                                     <option value="g">G</option>
                                     <option value="kg">Kg</option>
-                                    <option value="lb">Lb</option>
                                     <option value='ml'>Ml</option>
+                                    <option value='oz'>L</option>
                                 </select>
                                 <input name="Ingredient Name" type="text" placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => {
                                     const newIngredients = [...ingredients];
