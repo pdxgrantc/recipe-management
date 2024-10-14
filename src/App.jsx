@@ -92,7 +92,7 @@ function Header() {
         <NavLink to="/" className="nav-button">Dashboard</NavLink>
         <NavLink to="my-recipes" className="nav-button">My Recipes</NavLink>
         <NavLink to="create-recipe" className="nav-button">Create Recipe</NavLink>
-        <NavLink to="settings" className="nav-button">Settings</NavLink>
+        {/*<NavLink to="settings" className="nav-button">Settings</NavLink>*/}
         {user ?
           <div className='flex gap-5 h-fit'>
             <button className='nav-button' onClick={SignOut}>Sign Out</button>
