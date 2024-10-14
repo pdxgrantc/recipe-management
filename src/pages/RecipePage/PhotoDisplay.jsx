@@ -25,11 +25,11 @@ export default function PhotoDisplay({ photoURLs }) {
     }
 
     return (
-        <div className='w-fit'>
+        <div className='w-fit flex flex-col gap-2'>
             <div className='w-[30rem] h-[25rem] flex items-center justify-center'>
                 <img src={photoURLs[currentIndex]} alt='recipe' className='rounded w-full h-auto' />
             </div>
-            <div className='flex justify-between items-center gap-2 w-[15rem] mx-auto'>
+            <div className='flex justify-between items-center gap-2 w-[13rem] mx-auto'>
                 <button onClick={handlePrev}>
                     <PreviousIcon className='w-10 h-auto page-button' />
                 </button>
