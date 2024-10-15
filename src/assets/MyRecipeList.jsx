@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import RecipeThumbnail from './RecipeThumbnail';
+
 // Utils
 import { SubTitle, TableHeader } from './Utils';
 
@@ -12,7 +14,7 @@ export default function MyRecipeList({ recipes }) {
     return (
         <div>
             {recipes.map((recipe, index) => (
-                <Recipe key={index} recipe={recipe} />
+                <RecipeThumbnail key={index} recipe={recipe} />
             ))}
         </div>
     )
