@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 
 // Firebase
-import { auth, storage } from '../firebase';
+import { auth, storage } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ref, uploadBytesResumable } from 'firebase/storage';
 
@@ -80,41 +80,50 @@ export default function AddImageToRecipe() {
     );
   };
 
+  const handleCancel = () => {
+    setFile(null);
+    setUploadProgress(0);
+    setShowUploadProgress(false);
+    setErrorMessage('');
+  }
+
   return (
-    <div className="flex flex-col">
+    <div className="w-full p-10 h-full flex flex-col">
       <div
         {...getRootProps()}
-        className="border-4 border-dashed border-gray-400 p-6 text-center cursor-pointer w-64 rounded"
+        className="border-4 border-dashed border-gray-400 p-6 text-center cursor-pointer min-h-[12.5rem] flex-grow rounded flex items-center justify-center"
       >
-        <input {...getInputProps()} />
+        <input {...getInputProps()} className="hidden" />
         <p>Drag and drop an image file here, or click to select a file</p>
       </div>
       {errorMessage && (
         <p className="text-red-500 mt-2">{errorMessage}</p>
       )}
       {file && (
-        <div className="w-full flex flex-col gap-2">
+        <div className="w-full flex flex-col gap-2 flex-grow">
           <div className='flex gap-2'>
-            <p>Selected file: {file.name}</p>
-            <button onClick={() => setFile(null)} className="icon-button"><CancelIcon /></button>
+            <p className='truncate'>Selected file: {file.name}</p>
+            <button onClick={handleCancel} className="icon-button"><CancelIcon /></button>
           </div>
-          <button
-            onClick={handleUpload}
-            className="page-button text-button"
-          >
-            Upload
-          </button>
-          {showUploadProgress && (
-            <>
-              <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                <div
-                  className="bg-blue-500 h-2.5 rounded-full"
-                  style={{ width: `${uploadProgress}%` }}
-                ></div>
+          <div className='flex items-center gap-5'>
+            <button
+              onClick={handleUpload}
+              className="page-button text-button"
+            >
+              Upload
+            </button>
+            {showUploadProgress && (
+              <div className='flex items-center gap-2 flex-grow'>
+                <div className="flex-grow bg-gray-200 rounded-full h-2.5">
+                  <div
+                    className="bg-blue-500 h-2.5 rounded-full"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+                <p className="whitespace-nowrap">{uploadProgress.toFixed(0)}%</p>
               </div>
-              <p>{uploadProgress.toFixed(0)}%</p>
-            </>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>

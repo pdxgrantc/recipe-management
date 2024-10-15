@@ -14,10 +14,11 @@ import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 
 // Utils
 import { SwitchButton, SubTitle } from '../../assets/Utils';
-import AddImageToRecipe from '../../assets/AddImageToRecipe';
+import AddImageToRecipe from './AddImageToRecipe';
+import EditPhotoDisplay from './EditPhotoDisplay';
 
 
-export default function EditRecipe({ recipe, setEditing }) {
+export default function EditRecipe({ recipe, setEditing, photoURLs }) {
     const [user] = useAuthState(auth);
 
     // get recipe id from url   
@@ -120,7 +121,10 @@ export default function EditRecipe({ recipe, setEditing }) {
                     </button>
                 </div>
             </div>
-            <AddImageToRecipe />
+            <div className='grid grid-cols-2 max-w-[75rem]'>
+                <AddImageToRecipe />
+                <EditPhotoDisplay photoURLs={photoURLs} />
+            </div>
             <div className='flex flex-col gap-2'>
                 <SubTitle text='Ingredients' />
                 {ingredients.length !== 0 &&
