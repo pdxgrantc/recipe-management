@@ -6,7 +6,7 @@ import { SubTitle } from './Utils';
 
 export default function RecipeThumbnail({ recipe }) {
     return (
-        <Link className='block overflow-hidden' to={"/recipe/my/" + recipe.id}>
+        <Link className='overflow-hidden flex flex-col gap-1' to={"/recipe/my/" + recipe.id}>
             <SubTitle text={recipe.title} classes={"truncate whitespace-nowrap overflow-hidden"} />
             <div className="aspect-w-4 aspect-h-3 rounded overflow-hidden">
                 {recipe.thumbnail ? (
