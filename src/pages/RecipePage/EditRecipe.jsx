@@ -121,7 +121,7 @@ export default function EditRecipe({ recipe, setEditing, photoURLs }) {
                     </button>
                 </div>
             </div>
-            <div className='grid grid-cols-2 max-w-[75rem]'>
+            <div className='grid grid-cols-2 gap-10 max-w-[75rem]'>
                 <AddImageToRecipe />
                 <EditPhotoDisplay photoURLs={photoURLs} />
             </div>

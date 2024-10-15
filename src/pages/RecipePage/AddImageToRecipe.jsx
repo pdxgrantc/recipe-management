@@ -88,7 +88,7 @@ export default function AddImageToRecipe() {
   }
 
   return (
-    <div className="w-full p-10 h-full flex flex-col">
+    <div className="w-full py-10 h-full flex flex-col">
       <div
         {...getRootProps()}
         className="border-4 border-dashed border-gray-400 p-6 text-center cursor-pointer min-h-[12.5rem] flex-grow rounded flex items-center justify-center"

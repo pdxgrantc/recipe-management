@@ -26,8 +26,8 @@ export default function EditPhotoDisplay({ photoURLs }) {
 
     return (
         <div className='w-fit flex flex-col gap-2'>
-            <div className='w-[30rem] h-[25rem] flex items-center justify-center'>
-                <img src={photoURLs[currentIndex]} alt='recipe' className='w-full max-h-full object-contain' />
+            <div className='w-[30rem] h-[25rem] flex items-center justify-center rounded overflow-hidden'>
+                <img src={photoURLs[currentIndex]} alt='recipe' className='w-full h-auto max-h-full object-contain rounded' />
             </div>
             <div className='flex justify-between items-center gap-2 w-[13rem] mx-auto'>
                 <button onClick={handlePrev}>
