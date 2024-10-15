@@ -52,10 +52,12 @@ export function PageHelmet({ title }) {
     )
 }
 
-export function SubTitle({ text }) {
+export function SubTitle({ text, classes }) {
     return (
-        <h2 className='text-subTitle font-bold'>{text}</h2>
-    )
+        <h2 className={`text-subTitle font-bold ${classes ? classes : ''}`}>
+            {text}
+        </h2>
+    );
 }
 
 export function TableHeader({ text }) {
