@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 // Utils
@@ -8,11 +8,13 @@ export default function RecipeThumbnail({ recipe }) {
     return (
         <Link className='block overflow-hidden' to={"/recipe/my/" + recipe.id}>
             <SubTitle text={recipe.title} classes={"truncate whitespace-nowrap overflow-hidden"} />
-            {recipe.thumbnail ? (
-                <img className="rounded w-full h-full object-cover" src={recipe.thumbnail} alt={recipe.title} />
-            ) : (
-                <p>{recipe.description}</p>
-            )}
+            <div className="aspect-w-4 aspect-h-3 rounded overflow-hidden">
+                {recipe.thumbnail ? (
+                    <img className="w-full h-full object-cover" src={recipe.thumbnail} alt={recipe.title} />
+                ) : (
+                    <p className='description line-clamp-5'>{recipe.description}</p>
+                )}
+            </div>
         </Link>
-    )
+    );
 }
