@@ -102,93 +102,97 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
         <>
             <div className='flex gap-5'>
                 <div className='flex flex-col gap-2'>
-                    <input name="Recipe Title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <div className='flex justify-between min-w-[50rem]'>
+                        <input name="Recipe Title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                        <div className='flex gap-4'>
+                            <SwitchButton text='Share' onClick={() => { }} />
+                            <button name='Cancel' className='text-button page-button' onClick={handleCancel}>
+                                <p>Cancel</p>
+                                <CancelIcon />
+                            </button>
+                            <button name='delete recipe' className='text-button page-button' onClick={handleDelete}>
+                                <p>Delete</p>
+                                <DeleteIcon />
+                            </button>
+                            <button name='toggle edit' className='text-button page-button' onClick={handleEdit}>
+                                <p>Save</p>
+                                <SaveIcon />
+                            </button>
+                        </div>
+                    </div>
                     <textarea name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-                </div>
-                <div className='flex flex-col'>
-                    <SwitchButton text='Share' onClick={() => { }} />
-                    <button name='Cancel' className='text-button page-button' onClick={handleCancel}>
-                        <p>Cancel</p>
-                        <CancelIcon />
-                    </button>
-                    <button name='delete recipe' className='text-button page-button' onClick={handleDelete}>
-                        <p>Delete</p>
-                        <DeleteIcon />
-                    </button>
-                    <button name='toggle edit' className='text-button page-button' onClick={handleEdit}>
-                        <p>Save</p>
-                        <SaveIcon />
-                    </button>
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-10 max-w-[75rem]'>
                 <AddImageToRecipe fetchPhotoURLs={fetchPhotoURLs} />
-                {photoURLs.length !== 0 ? <EditPhotoDisplay photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto}  /> : <div></div>}  
+                {photoURLs.length !== 0 ? <EditPhotoDisplay photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} /> : <div></div>}
             </div>
-            <div className='flex flex-col gap-2'>
-                <SubTitle text='Ingredients' />
-                {ingredients.length !== 0 &&
-                    <ul>
-                        {ingredients.map((ingredient, index) => (
-                            <li key={index} className='flex items-center gap-2'>
-                                <input name="Ingredient Amount" type="number" placeholder="Amount" value={ingredient.amount} onChange={(e) => {
-                                    const newIngredients = [...ingredients];
-                                    newIngredients[index].amount = e.target.value;
-                                    setIngredients(newIngredients);
-                                }} />
-                                <select
-                                    name="Ingredient Measurement Type"
-                                    value={ingredient.unit}
-                                    onChange={(e) => {
+            <div className='flex flex-col gap-5 w-fit'>
+                <div className='flex flex-col gap-2'>
+                    <SubTitle text='Ingredients' />
+                    {ingredients.length !== 0 &&
+                        <ul className='flex flex-col gap-2'>
+                            {ingredients.map((ingredient, index) => (
+                                <li key={index} className='flex items-center gap-2 flex-nowrap'>
+                                    <input name="Ingredient Amount" type="number" placeholder="Amount" value={ingredient.amount} onChange={(e) => {
                                         const newIngredients = [...ingredients];
-                                        newIngredients[index].unit = e.target.value;
+                                        newIngredients[index].amount = e.target.value;
                                         setIngredients(newIngredients);
-                                    }}
-                                >
-                                    <option value="cup">Cup</option>
-                                    <option value="tbsp">Tbsp</option>
-                                    <option value="tsp">Tsp</option>
-                                    <option value="fluid oz">Fluid oz</option>
-                                    <option value="lb">Lb</option>
-                                    <option value='oz'>L</option>
-                                    <option value="g">G</option>
-                                    <option value="kg">Kg</option>
-                                    <option value='ml'>Ml</option>
-                                    <option value='oz'>L</option>
-                                </select>
-                                <input name="Ingredient Name" type="text" placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => {
-                                    const newIngredients = [...ingredients];
-                                    newIngredients[index].ingredient = e.target.value;
-                                    setIngredients(newIngredients);
-                                }} />
-                                <button className='icon-button'>
-                                    <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteIngredient(index)} />
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                }
-                <button onClick={handleAddIngredient} className='text-button page-button'>Add Ingredient</button>
-            </div>
-            <div className='flex flex-col gap-2'>
-                <SubTitle text='Instructions' />
-                {steps.length !== 0 &&
-                    <ul>
-                        {steps.map((step, index) => (
-                            <li key={index} className='flex items-center gap-2'>
-                                <input name="Step Text" type="text" value={step} onChange={(e) => {
-                                    const newSteps = [...steps];
-                                    newSteps[index] = e.target.value;
-                                    setSteps(newSteps);
-                                }} />
-                                <button className='icon-button'>
-                                    <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteStep(index)} />
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                }
-                <button onClick={handleAddStep} className='text-button page-button'>Add Step</button>
+                                    }} />
+                                    <select
+                                        name="Ingredient Measurement Type"
+                                        value={ingredient.unit}
+                                        onChange={(e) => {
+                                            const newIngredients = [...ingredients];
+                                            newIngredients[index].unit = e.target.value;
+                                            setIngredients(newIngredients);
+                                        }}
+                                    >
+                                        <option value="cup">Cup</option>
+                                        <option value="tbsp">Tbsp</option>
+                                        <option value="tsp">Tsp</option>
+                                        <option value="fluid oz">Fluid oz</option>
+                                        <option value="lb">Lb</option>
+                                        <option value='oz'>L</option>
+                                        <option value="g">G</option>
+                                        <option value="kg">Kg</option>
+                                        <option value='ml'>Ml</option>
+                                        <option value='oz'>L</option>
+                                    </select>
+                                    <input name="Ingredient Name" type="text" placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => {
+                                        const newIngredients = [...ingredients];
+                                        newIngredients[index].ingredient = e.target.value;
+                                        setIngredients(newIngredients);
+                                    }} />
+                                    <button className='icon-button'>
+                                        <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteIngredient(index)} />
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    }
+                    <button onClick={handleAddIngredient} className='text-button page-button'>Add Ingredient</button>
+                </div>
+                <div className='flex flex-col gap-2 w-full'>
+                    <SubTitle text='Instructions' />
+                    {steps.length !== 0 &&
+                        <ul className='flex flex-col gap-2'>
+                            {steps.map((step, index) => (
+                                <li key={index} className='flex items-center gap-2 justify-between'>
+                                    <input className='w-full' name="Step Text" type="text" value={step} onChange={(e) => {
+                                        const newSteps = [...steps];
+                                        newSteps[index] = e.target.value;
+                                        setSteps(newSteps);
+                                    }} />
+                                    <button className='icon-button'>
+                                        <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteStep(index)} />
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    }
+                    <button onClick={handleAddStep} className='text-button page-button'>Add Step</button>
+                </div>
             </div>
             <div>
                 <SubTitle text='Notes' />
