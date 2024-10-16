@@ -24,18 +24,7 @@ export default function EditPhotoDisplay({ handleDeletePhoto, photoURLs }) {
             setCurrentIndex(photoURLs.length - 1);
         }
     }
-
-    const handleDelete = () => {
-        // delete the photo from storage
-        // delete the photo from the array
-
-        const newPhotoURLs = [...photoURLs];
-        newPhotoURLs.splice(currentIndex, 1);
-        setPhotoURLs(newPhotoURLs);
-    }
-
-    console.log('photoURLs:', photoURLs);
-
+    
     return (
         <div className='w-fit flex flex-col gap-2'>
             <div className='w-[30rem] h-[25rem] flex items-center justify-center rounded overflow-hidden'>

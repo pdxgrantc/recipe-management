@@ -43,22 +43,22 @@ export default function MyRecipe() {
   useEffect(() => {
     if (!user) return;
   
-    const fetchPhotoURLs = async () => {
-      try {
-        const storageRef = ref(storage, `users/${user.uid}/recipes/${id}`);
-        const result = await listAll(storageRef);
-        const urls = await Promise.all(result.items.map(async (item) => {
-          const url = await getDownloadURL(item);
-          return { id: item.name, url };
-        }));
-        setPhotoURLs(urls);
-      } catch (error) {
-        console.error('Error fetching photo URLs:', error);
-      }
-    };
-  
     fetchPhotoURLs();
-  }, [user, id, recipe]);
+  }, [user, id]);
+
+  const fetchPhotoURLs = async () => {
+    try {
+      const storageRef = ref(storage, `users/${user.uid}/recipes/${id}`);
+      const result = await listAll(storageRef);
+      const urls = await Promise.all(result.items.map(async (item) => {
+        const url = await getDownloadURL(item);
+        return { id: item.name, url };
+      }));
+      setPhotoURLs(urls);
+    } catch (error) {
+      console.error('Error fetching photo URLs:', error);
+    }
+  };
 
   const handleDeletePhoto = async (photoId, index) => {
     try {
@@ -81,7 +81,7 @@ export default function MyRecipe() {
   return (
     <PageDisplay>
       {editing ?
-        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} />
+        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} fetchPhotoURLs={fetchPhotoURLs} />
         :
         <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs}  />
       }

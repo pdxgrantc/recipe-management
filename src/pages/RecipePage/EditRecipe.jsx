@@ -18,7 +18,7 @@ import AddImageToRecipe from './AddImageToRecipe';
 import EditPhotoDisplay from './EditPhotoDisplay';
 
 
-export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, photoURLs }) {
+export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, photoURLs, fetchPhotoURLs }) {
     const [user] = useAuthState(auth);
 
     // get recipe id from url   
@@ -122,8 +122,8 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-10 max-w-[75rem]'>
-                <AddImageToRecipe />
-                {photoURLs.length !== 0 ? <EditPhotoDisplay photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} /> : <div></div>}  
+                <AddImageToRecipe fetchPhotoURLs={fetchPhotoURLs} />
+                {photoURLs.length !== 0 ? <EditPhotoDisplay photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto}  /> : <div></div>}  
             </div>
             <div className='flex flex-col gap-2'>
                 <SubTitle text='Ingredients' />

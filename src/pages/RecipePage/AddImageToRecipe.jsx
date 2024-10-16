@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Icons
 import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 
-export default function AddImageToRecipe() {
+export default function AddImageToRecipe({ fetchPhotoURLs }) {
   const [user] = useAuthState(auth);
 
   // get the id of the recipe from the url
@@ -75,6 +75,7 @@ export default function AddImageToRecipe() {
         console.error('Error uploading file:', error);
       },
       () => {
+        fetchPhotoURLs();
         console.log('File uploaded successfully!');
       }
     );
