@@ -83,8 +83,10 @@ function CreateForm() {
 
     return (
         <>
-            <input name="Recipe Title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-            <textarea name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <div className='flex flex-col gap-2'>
+                <input name="Recipe Title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <textarea name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+            </div>
             <div className='flex flex-col gap-2'>
                 <SubTitle text='Ingredients' />
                 {ingredients.length !== 0 &&
