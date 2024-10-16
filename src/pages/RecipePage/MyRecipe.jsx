@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { auth, db, storage } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import { ref, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 
 // Components
 import Recipe from './Recipe';
@@ -42,27 +42,48 @@ export default function MyRecipe() {
 
   useEffect(() => {
     if (!user) return;
-
+  
     const fetchPhotoURLs = async () => {
       try {
         const storageRef = ref(storage, `users/${user.uid}/recipes/${id}`);
         const result = await listAll(storageRef);
-        const urls = await Promise.all(result.items.map(item => getDownloadURL(item)));
+        const urls = await Promise.all(result.items.map(async (item) => {
+          const url = await getDownloadURL(item);
+          return { id: item.name, url };
+        }));
         setPhotoURLs(urls);
       } catch (error) {
         console.error('Error fetching photo URLs:', error);
       }
     };
-
+  
     fetchPhotoURLs();
   }, [user, id, recipe]);
+
+  const handleDeletePhoto = async (photoId, index) => {
+    try {
+      console.log(`users/${user.uid}/recipes/${id}/${photoId}`)
+
+      const photoRef = ref(storage, `users/${user.uid}/recipes/${id}/${photoId}`);
+      await deleteObject(photoRef);
+
+      // delete the photo from the array
+      const newPhotoURLs = [...photoURLs];
+      newPhotoURLs.splice(index, 1);
+
+      // update photoURLs state
+      setPhotoURLs(newPhotoURLs);
+    } catch (error) {
+      console.error('Error deleting photo:', error);
+    }
+  }
 
   return (
     <PageDisplay>
       {editing ?
-        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} setPhotoURLs={setPhotoURLs} />
+        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} />
         :
-        <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} />
+        <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs}  />
       }
     </PageDisplay>
   );
