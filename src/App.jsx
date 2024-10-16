@@ -41,7 +41,6 @@ function Root(props) {
   const { children } = props
   const [user] = useAuthState(auth);
 
-
   return (
     <div className='text'>
       <Header />
@@ -85,9 +84,13 @@ function Header() {
         <h1 className='text text-lheader font-semibold text-center'>Recipes</h1>
       </Link>
       <nav className='h-fit flex my-auto text-xxl gap-3 font-semibold'>
-        <NavLink to="/" className="nav-button">Dashboard</NavLink>
-        <NavLink to="my-recipes" className="nav-button">My Recipes</NavLink>
-        <NavLink to="create-recipe" className="nav-button">Create Recipe</NavLink>
+        {user &&
+          <>
+            <NavLink to="/" className="nav-button">Dashboard</NavLink>
+            <NavLink to="my-recipes" className="nav-button">My Recipes</NavLink>
+            <NavLink to="create-recipe" className="nav-button">Create Recipe</NavLink>
+          </>
+        }
         {/*<NavLink to="settings" className="nav-button">Settings</NavLink>*/}
         {user ?
           <div className='flex gap-5 h-fit'>
