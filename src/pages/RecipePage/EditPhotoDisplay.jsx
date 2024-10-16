@@ -39,7 +39,7 @@ export default function EditPhotoDisplay({ handleDeletePhoto, photoURLs }) {
     return (
         <div className='w-fit flex flex-col gap-2'>
             <div className='w-[30rem] h-[25rem] flex items-center justify-center rounded overflow-hidden'>
-                <img src={photoURLs[currentIndex].url} alt='recipe' className='h-auto max-h-full object-contain rounded' />
+                <img src={photoURLs[currentIndex]?.url} alt='recipe' className='h-auto max-h-full object-contain rounded' />
             </div>
             <div className='flex justify-between items-center gap-2 w-[15rem] mx-auto'>
                 <button onClick={handlePrev}>
