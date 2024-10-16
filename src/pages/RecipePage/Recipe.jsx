@@ -15,8 +15,6 @@ import { PageHeader, SubTitle } from '../../assets/Utils';
 
 
 export default function RecipePage({ recipe, setEditing, photoURLs }) {
-    const [user] = useAuthState(auth);
-
     const handleEdit = () => {
         setEditing(true);
     }
@@ -35,23 +33,22 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
                         </button>
                     </div>
                 </div>
-                {(recipe.description === '' || photoURLs.length === 0) ?
-                    <>
+                <div className='relative'>
+                    {photoURLs.length > 0 &&
+                        <div className='absolute top-0 right-0 w-[30rem] h-[25rem]'>
+                            <PhotoDisplay photoURLs={photoURLs} />
+                        </div>
+                    }
+                    <div className='pr-[30rem]'>
                         {recipe.description !== '' && <p>{recipe.description}</p>}
-                        {photoURLs.length !== 0 && <PhotoDisplay photoURLs={photoURLs} />}
-                    </>
-                    :
-                    <div className='grid grid-cols-2'>
-                        <p>{recipe.description}</p>
-                        <PhotoDisplay photoURLs={photoURLs} />
+                        <Ingredients ingredients={recipe.ingredients} />
+                        <Steps steps={recipe.steps} />
+                        {recipe.notes !== '' && <Notes notes={recipe.notes} />}
                     </div>
-                }
-            </div >
-            <Ingredients ingredients={recipe.ingredients} />
-            <Steps steps={recipe.steps} />
-            {recipe.notes !== '' && <Notes notes={recipe.notes} />}
+                </div>
+            </div>
         </>
-    )
+    );
 }
 
 function Ingredients({ ingredients }) {
