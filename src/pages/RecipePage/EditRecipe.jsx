@@ -125,7 +125,7 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                             </button>
                         </div>
                     </div>
-                    <textarea name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <textarea className='min-h-20' name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-10 max-w-[75rem]'>
@@ -218,12 +218,13 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                         </ul>
                     }
                     <button onClick={handleAddStep} className='text-button page-button'>Add Step</button>
+                    <div>
+                        <SubTitle text='Notes' />
+                        <textarea className='w-full h-fit min-h-40' name="Notes" placeholder="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+                    </div>
                 </div>
             </div>
-            <div>
-                <SubTitle text='Notes' />
-                <input className='w-full h-fit min-h-40' name="Notes" placeholder="Notes"  value={notes} onChange={(e) => setNotes(e.target.value)} />
-            </div>
+
         </>
     )
 }

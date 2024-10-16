@@ -12,9 +12,9 @@ export default function Dashboard() {
         <>
             <PageHelmet title={"Dashboard"} />
             <PageDisplay>
-                <div>
+                <div className='flex flex-col gap-2'>
                     <div>
-                        <SubTitle text='Recently Updated Recipes' />
+                        <SubTitle text='Recently Updated Recipes ' />
                     </div>
                     <MyRecentRecipes numRecipes={5} />
                 </div>

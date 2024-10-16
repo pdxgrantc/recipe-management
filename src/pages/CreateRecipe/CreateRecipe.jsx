@@ -85,7 +85,7 @@ function CreateForm() {
         <>
             <div className='flex flex-col gap-2'>
                 <input name="Recipe Title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-                <textarea name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <textarea className='min-h-20' name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
             <div className='flex flex-col gap-2'>
                 <SubTitle text='Ingredients' />
@@ -187,7 +187,7 @@ function CreateForm() {
             </div>
             <div>
                 <SubTitle text='Notes' />
-                <input className='w-full h-fit min-h-40' name="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+                <textarea className='w-full h-fit min-h-40' name="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div>
                 <button onClick={handleSubmit} className='text-button page-button'>Submit</button>

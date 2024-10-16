@@ -6,7 +6,7 @@ import { auth, SignIn, SignOut } from './firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 // Pages
-import Dashboard from './pages/dashboard/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import MyRecipes from './pages/MyRecipes/MyRecipes';
 import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
 import MyRecipe from './pages/RecipePage/MyRecipe';
@@ -47,7 +47,7 @@ function Root(props) {
 
       <div className='bg px-main py-10 flex-grow' style={{ minHeight: "calc(100vh - 17.5rem)" }}>
         {user ? (
-          <main>{children || <Outlet />}</main>
+          <main className='flex flex-col gap-4'>{children || <Outlet />}</main>
         ) : (
           <div className='mt-20'>
             <SignInDialogue />

@@ -23,7 +23,7 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
 
     return (
         <>
-            <div>
+            <div className='w-fit min-w-[70rem] flex flex-col gap-2'>
                 <div className='flex justify-between gap-2'>
                     <PageHeader title={recipe.title} />
                     <div className='flex gap-5 h-fit items-baseline self-center'>
