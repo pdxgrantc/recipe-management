@@ -60,7 +60,7 @@ export default function MyRecipe() {
   return (
     <PageDisplay>
       {editing ?
-        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} />
+        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} setPhotoURLs={setPhotoURLs} />
         :
         <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} />
       }
