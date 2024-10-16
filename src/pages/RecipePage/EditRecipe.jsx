@@ -33,7 +33,7 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
     const [goToMyRecipes, setGoToMyRecipes] = useState(false);
 
     const handleAddIngredient = () => {
-        setIngredients([...ingredients, { amount: '', unit: '', ingredient: '' }]);
+        setIngredients([...ingredients, { amount: '', fraction: '', unit: '', ingredient: '' }]);
     }
 
     const handleDeleteIngredient = (index) => {
@@ -145,6 +145,26 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                                         setIngredients(newIngredients);
                                     }} />
                                     <select
+                                        name="Ingredient Fraction"
+                                        value={ingredient.fraction}
+                                        onChange={(e) => {
+                                            const newIngredients = [...ingredients];
+                                            newIngredients[index].fraction = e.target.value;
+                                            setIngredients(newIngredients);
+                                        }}
+                                    >
+                                        <option value=''> </option>
+                                        <option value='1/8'>1/8</option>
+                                        <option value='1/4'>1/4</option>
+                                        <option value='1/3'>1/3</option>
+                                        <option value='3/8'>3/8</option>
+                                        <option value='1/2'>1/2</option>
+                                        <option value='5/8'>5/8</option>
+                                        <option value='2/3'>2/3</option>
+                                        <option value='3/4'>3/4</option>
+                                        <option value='7/8'>7/8</option>
+                                    </select>
+                                    <select
                                         name="Ingredient Measurement Type"
                                         value={ingredient.unit}
                                         onChange={(e) => {
@@ -153,16 +173,17 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                                             setIngredients(newIngredients);
                                         }}
                                     >
+                                        <option value=''> </option>
                                         <option value="cup">Cup</option>
                                         <option value="tbsp">Tbsp</option>
                                         <option value="tsp">Tsp</option>
                                         <option value="fluid oz">Fluid oz</option>
                                         <option value="lb">Lb</option>
-                                        <option value='oz'>L</option>
+                                        <option value="oz">Oz</option>
                                         <option value="g">G</option>
                                         <option value="kg">Kg</option>
-                                        <option value='ml'>Ml</option>
-                                        <option value='oz'>L</option>
+                                        <option value="ml">Ml</option>
+                                        <option value="l">L</option>
                                     </select>
                                     <input name="Ingredient Name" type="text" placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => {
                                         const newIngredients = [...ingredients];

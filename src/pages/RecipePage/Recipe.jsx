@@ -67,7 +67,7 @@ function Ingredients({ ingredients }) {
 
 function Ingredient({ ingredient }) {
     return (
-        <p>{ingredient.amount} {ingredient.unit} {ingredient.ingredient}</p>
+        <p>{ingredient.amount} {ingredient?.fraction} {ingredient.unit} {ingredient.ingredient}</p>
     )
 }
 
