@@ -39,7 +39,7 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
                             <PhotoDisplay photoURLs={photoURLs} />
                         </div>
                     }
-                    <div className='pr-[30rem]'>
+                    <div className='pr-[30rem] flex flex-col gap-2'>
                         {recipe.description !== '' && <p>{recipe.description}</p>}
                         <Ingredients ingredients={recipe.ingredients} />
                         <Steps steps={recipe.steps} />
