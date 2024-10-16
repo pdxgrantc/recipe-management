@@ -12,6 +12,9 @@ import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
 import MyRecipe from './pages/RecipePage/MyRecipe';
 import Settings from './pages/Settings/Settings';
 
+// Components
+import SignInDialogue from './assets/SignInDialogue';
+
 // icons
 import { SiGithub as GitHubLogo } from "react-icons/si";
 import { FaLinkedinIn as LinkedLogo } from "react-icons/fa";
@@ -47,7 +50,9 @@ function Root(props) {
         {user ? (
           <main>{children || <Outlet />}</main>
         ) : (
-          <SignInDialogue />
+          <div className='mt-20'>
+            <SignInDialogue />
+          </div>
         )}
       </div>
       <footer className="bg-black px-20 h-[12.5rem] flex justify-around flex-col">
@@ -67,15 +72,6 @@ function Root(props) {
           <p className="mx-auto text-m">Grant Conklin - 2024</p>
         </div>
       </footer>
-    </div>
-  )
-}
-
-function SignInDialogue() {
-  return (
-    <div>
-      <h1>Sign In</h1>
-      <button onClick={SignIn}>Sign In with Google</button>
     </div>
   )
 }
