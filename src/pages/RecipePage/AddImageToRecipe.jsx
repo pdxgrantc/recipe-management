@@ -77,6 +77,11 @@ export default function AddImageToRecipe({ fetchPhotoURLs }) {
       () => {
         fetchPhotoURLs();
         console.log('File uploaded successfully!');
+        setTimeout(() => {
+          setShowUploadProgress(false);
+          setUploadProgress(0);
+          setFile(null);
+        }, 500);
       }
     );
   };
