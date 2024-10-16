@@ -45,7 +45,7 @@ function Root(props) {
     <div className='text'>
       <Header />
 
-      <div className='bg px-main py-10 flex-grow' style={{ minHeight: "calc(100vh - 17.5rem)" }}>
+      <div className='bg px-main py-10 pb-20 flex-grow' style={{ minHeight: "calc(100vh - 17.5rem)" }}>
         {user ? (
           <main className='flex flex-col gap-4'>{children || <Outlet />}</main>
         ) : (
