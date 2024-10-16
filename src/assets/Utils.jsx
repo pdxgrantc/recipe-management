@@ -3,10 +3,10 @@ import React from 'react'
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 
-export function PageDisplay({ children }) {
+export function PageDisplay({ children, classes }) {
     return (
         <>
-            <div className='flex flex-col gap-5'>
+            <div className={`flex flex-col gap-5 ${classes ? classes : ''}`}>
                 {children}
             </div>
         </>

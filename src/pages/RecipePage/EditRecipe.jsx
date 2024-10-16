@@ -222,7 +222,7 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
             </div>
             <div>
                 <SubTitle text='Notes' />
-                <textarea name="Notes" placeholder="Notes" className='h-fit w-60' value={notes} onChange={(e) => setNotes(e.target.value)} />
+                <input className='w-full h-fit min-h-40' name="Notes" placeholder="Notes"  value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
         </>
     )

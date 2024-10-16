@@ -16,7 +16,7 @@ export default function CreateRecipe() {
     return (
         <>
             <PageHeader title='Create Recipe' />
-            <PageDisplay>
+            <PageDisplay classes='w-fit'>
                 <CreateForm />
             </PageDisplay>
         </>
@@ -88,7 +88,7 @@ function CreateForm() {
             <div className='flex flex-col gap-2'>
                 <SubTitle text='Ingredients' />
                 {ingredients.length !== 0 &&
-                    <ul>
+                    <ul className='flex flex-col gap-2'>
                         {ingredients.map((ingredient, index) => (
                             <li key={index} className='flex items-center gap-2'>
                                 <input
@@ -163,13 +163,13 @@ function CreateForm() {
                 }
                 <button onClick={handleAddIngredient} className='text-button page-button'>Add Ingredient</button>
             </div>
-            <div className='flex flex-col gap-2'>
+            <div className='flex flex-col gap-2 w-full'>
                 <SubTitle text='Instructions' />
                 {steps.length !== 0 &&
-                    <ul>
+                    <ul className='flex flex-col gap-2'>
                         {steps.map((step, index) => (
-                            <li key={index} className='flex items-center gap-2'>
-                                <input name="Step Text" type="text" value={step} onChange={(e) => {
+                            <li key={index} className='flex items-center gap-2 justify-between'>
+                                <input className='w-full' name="Step Text" type="text" value={step} onChange={(e) => {
                                     const newSteps = [...steps];
                                     newSteps[index] = e.target.value;
                                     setSteps(newSteps);
@@ -185,7 +185,7 @@ function CreateForm() {
             </div>
             <div>
                 <SubTitle text='Notes' />
-                <textarea name="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+                <input className='w-full h-fit min-h-40' name="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div>
                 <button onClick={handleSubmit} className='text-button page-button'>Submit</button>
