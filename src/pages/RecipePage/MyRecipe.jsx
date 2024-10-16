@@ -62,8 +62,6 @@ export default function MyRecipe() {
 
   const handleDeletePhoto = async (photoId, index) => {
     try {
-      console.log(`users/${user.uid}/recipes/${id}/${photoId}`)
-
       const photoRef = ref(storage, `users/${user.uid}/recipes/${id}/${photoId}`);
       await deleteObject(photoRef);
 

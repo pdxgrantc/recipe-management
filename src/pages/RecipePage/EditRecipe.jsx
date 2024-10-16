@@ -90,6 +90,11 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
         const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
         await deleteDoc(recipeRef);
 
+        // delete photos from firebase storage
+        photoURLs.forEach(async (photo) => {
+            await handleDeletePhoto(photo.id, photo.index);
+        });
+
         // redirect to my recipes
         setGoToMyRecipes(true);
     }
