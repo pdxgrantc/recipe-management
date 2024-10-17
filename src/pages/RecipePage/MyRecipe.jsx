@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 // Firebase
 import { auth, db, storage } from '../../firebase';
@@ -23,6 +23,8 @@ export default function MyRecipe() {
   const [recipe, setRecipe] = useState(null);
   const [photoURLs, setPhotoURLs] = useState([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!user) return;
 
@@ -34,11 +36,13 @@ export default function MyRecipe() {
         setRecipe(recipeNoId);
       } else {
         setRecipe(null);
+        // go to 404 page and pass the error message
+        navigate('/404', { state: { error: 'Recipe not found' } });
       }
     });
 
     return () => unsubscribe();
-  }, [user, id]);
+  }, [user, id, navigate]);
 
   useEffect(() => {
     if (!user) return;

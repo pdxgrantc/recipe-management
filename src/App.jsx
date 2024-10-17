@@ -11,6 +11,7 @@ import MyRecipes from './pages/MyRecipes/MyRecipes';
 import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
 import MyRecipe from './pages/RecipePage/MyRecipe';
 import Settings from './pages/Settings/Settings';
+import ErrorPage from './pages/ErrorPage';
 
 // Components
 import SignInDialogue from './assets/SignInDialogue';
@@ -30,7 +31,8 @@ export default function App() {
           <Route path="/my-recipes" element={<MyRecipes />} />
           <Route path="/create-recipe" element={<CreateRecipe />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/recipe/my/:id" element={<MyRecipe />} />
+          <Route path="/recipe/my/:id" element={<MyRecipe />} errorElement={<ErrorPage />} />
+          <Route path="*" element={<ErrorPage />}  />
         </Route>
       </Routes>
     </BrowserRouter>
