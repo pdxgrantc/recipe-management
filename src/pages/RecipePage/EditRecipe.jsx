@@ -17,6 +17,11 @@ import { SwitchButton, SubTitle } from '../../assets/Utils';
 import AddImageToRecipe from './AddImageToRecipe';
 import EditPhotoDisplay from './EditPhotoDisplay';
 
+// Dnd-kit
+import { closestCenter, DndContext } from '@dnd-kit/core';
+import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
 
 export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, photoURLs, fetchPhotoURLs }) {
     const [user] = useAuthState(auth);
@@ -103,6 +108,17 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
         return <Navigate to='/my-recipes' />
     }
 
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+
+        if (active.id !== over.id) {
+            setIngredients((items) => {
+                const oldIndex = items.findIndex(item => item.id === active.id);
+                const newIndex = items.findIndex(item => item.id === over.id);
+                return arrayMove(items, oldIndex, newIndex);
+            });
+        }
+    };
     return (
         <>
             <div className='flex gap-5'>
@@ -136,66 +152,23 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                 <div className='flex flex-col gap-2'>
                     <SubTitle text='Ingredients' />
                     {ingredients.length !== 0 &&
-                        <ul className='flex flex-col gap-2'>
-                            {ingredients.map((ingredient, index) => (
-                                <li key={index} className='flex items-center gap-2 flex-nowrap'>
-                                    <input name="Ingredient Amount" type="number" placeholder="Amount" value={ingredient.amount} onChange={(e) => {
-                                        const newIngredients = [...ingredients];
-                                        newIngredients[index].amount = e.target.value;
-                                        setIngredients(newIngredients);
-                                    }} />
-                                    <select
-                                        name="Ingredient Fraction"
-                                        value={ingredient.fraction}
-                                        onChange={(e) => {
-                                            const newIngredients = [...ingredients];
-                                            newIngredients[index].fraction = e.target.value;
-                                            setIngredients(newIngredients);
-                                        }}
-                                    >
-                                        <option value=''> </option>
-                                        <option value='1/8'>1/8</option>
-                                        <option value='1/4'>1/4</option>
-                                        <option value='1/3'>1/3</option>
-                                        <option value='3/8'>3/8</option>
-                                        <option value='1/2'>1/2</option>
-                                        <option value='5/8'>5/8</option>
-                                        <option value='2/3'>2/3</option>
-                                        <option value='3/4'>3/4</option>
-                                        <option value='7/8'>7/8</option>
-                                    </select>
-                                    <select
-                                        name="Ingredient Measurement Type"
-                                        value={ingredient.unit}
-                                        onChange={(e) => {
-                                            const newIngredients = [...ingredients];
-                                            newIngredients[index].unit = e.target.value;
-                                            setIngredients(newIngredients);
-                                        }}
-                                    >
-                                        <option value=''> </option>
-                                        <option value="cup">Cup</option>
-                                        <option value="tbsp">Tbsp</option>
-                                        <option value="tsp">Tsp</option>
-                                        <option value="fluid oz">Fluid oz</option>
-                                        <option value="lb">Lb</option>
-                                        <option value="oz">Oz</option>
-                                        <option value="g">G</option>
-                                        <option value="kg">Kg</option>
-                                        <option value="ml">Ml</option>
-                                        <option value="l">L</option>
-                                    </select>
-                                    <input name="Ingredient Name" type="text" placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => {
-                                        const newIngredients = [...ingredients];
-                                        newIngredients[index].ingredient = e.target.value;
-                                        setIngredients(newIngredients);
-                                    }} />
-                                    <button className='icon-button'>
-                                        <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteIngredient(index)} />
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
+                        <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                            <SortableContext items={ingredients} strategy={verticalListSortingStrategy}>
+                                <ul className='flex flex-col gap-2'>
+                                    {ingredients.map((ingredient, index) => (
+                                        <SortableIngredient
+                                            key={index}
+                                            id={index}
+                                            index={index}
+                                            ingredient={ingredient}
+                                            ingredients={ingredients}
+                                            setIngredients={setIngredients}
+                                            handleDeleteIngredient={handleDeleteIngredient}
+                                        />
+                                    ))}
+                                </ul>
+                            </SortableContext>
+                        </DndContext>
                     }
                     <button onClick={handleAddIngredient} className='text-button page-button'>Add Ingredient</button>
                 </div>
@@ -226,5 +199,72 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
             </div>
 
         </>
+    )
+}
+
+function SortableIngredient({ index, ingredient, ingredients, setIngredients, handleDeleteIngredient }) {
+    const {attributes, listeners, setNodeRef, transform, transition} = useSortable({ id: index });
+    const style = {
+        transition,
+        transform: CSS.Transform.toString(transform),
+    }
+
+    return (
+        <li ref={setNodeRef} style={style} {...attributes} {...listeners} className='flex items-center gap-2 flex-nowrap'>
+            <input name="Ingredient Amount" type="number" placeholder="Amount" value={ingredient.amount} onChange={(e) => {
+                const newIngredients = [...ingredients];
+                newIngredients[index].amount = e.target.value;
+                setIngredients(newIngredients);
+            }} />
+            <select
+                name="Ingredient Fraction"
+                value={ingredient.fraction}
+                onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[index].fraction = e.target.value;
+                    setIngredients(newIngredients);
+                }}
+            >
+                <option value=''> </option>
+                <option value='1/8'>1/8</option>
+                <option value='1/4'>1/4</option>
+                <option value='1/3'>1/3</option>
+                <option value='3/8'>3/8</option>
+                <option value='1/2'>1/2</option>
+                <option value='5/8'>5/8</option>
+                <option value='2/3'>2/3</option>
+                <option value='3/4'>3/4</option>
+                <option value='7/8'>7/8</option>
+            </select>
+            <select
+                name="Ingredient Measurement Type"
+                value={ingredient.unit}
+                onChange={(e) => {
+                    const newIngredients = [...ingredients];
+                    newIngredients[index].unit = e.target.value;
+                    setIngredients(newIngredients);
+                }}
+            >
+                <option value=''> </option>
+                <option value="cup">Cup</option>
+                <option value="tbsp">Tbsp</option>
+                <option value="tsp">Tsp</option>
+                <option value="fluid oz">Fluid oz</option>
+                <option value="lb">Lb</option>
+                <option value="oz">Oz</option>
+                <option value="g">G</option>
+                <option value="kg">Kg</option>
+                <option value="ml">Ml</option>
+                <option value="l">L</option>
+            </select>
+            <input name="Ingredient Name" type="text" placeholder="Ingredient" value={ingredient.ingredient} onChange={(e) => {
+                const newIngredients = [...ingredients];
+                newIngredients[index].ingredient = e.target.value;
+                setIngredients(newIngredients);
+            }} />
+            <button className='icon-button'>
+                <DeleteIcon className='w-8 h-8' onClick={() => handleDeleteIngredient(index)} />
+            </button>
+        </li>
     )
 }
