@@ -1,6 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+
+import Switch from '@mui/material/Switch';
 
 
 export function PageDisplay({ children, classes }) {
@@ -66,10 +68,24 @@ export function TableHeader({ text }) {
     )
 }
 
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
+
 export function SwitchButton({ text, onClick }) {
+    const [isOn, setIsOn] = useState(false);
+
+    const handleToggle = () => {
+        setIsOn(!isOn);
+        onClick();
+    };
+
     return (
-        <button name={text} className='text-button page-button' onClick={onClick}>
-            <p>{text}</p>
-        </button>
+        <div className='switch-container'>
+            <label className='switch-label'>{text}</label>
+            <Switch
+                checked={isOn}
+                onChange={handleToggle}
+                {...label}
+            />
+        </div>
     )
 }
