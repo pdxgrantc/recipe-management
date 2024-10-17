@@ -46,7 +46,7 @@ export default function MyRecipe() {
 
   useEffect(() => {
     if (!user) return;
-  
+
     fetchPhotoURLs();
   }, [user, id]);
 
@@ -85,7 +85,7 @@ export default function MyRecipe() {
       {editing ?
         <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} fetchPhotoURLs={fetchPhotoURLs} />
         :
-        <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs}  />
+        <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} />
       }
     </PageDisplay>
   );

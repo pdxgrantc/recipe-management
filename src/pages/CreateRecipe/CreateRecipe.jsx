@@ -67,6 +67,7 @@ function CreateForm() {
             ingredients,
             steps,
             notes,
+            favorite: false,
             sharedGlobal: false
         }
 

@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 // Firebase
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 
 // Icons
 import { FaRegEdit as EditIcon } from "react-icons/fa";
+import { MdOutlineFavorite as FavoriteIcon } from "react-icons/md";
+import { MdOutlineFavoriteBorder as NotFavoriteIcon } from "react-icons/md";
 
 // Components
 import PhotoDisplay from './PhotoDisplay';
@@ -15,8 +18,28 @@ import { PageHeader, SubTitle } from '../../assets/Utils';
 
 
 export default function RecipePage({ recipe, setEditing, photoURLs }) {
+    const [user] = useAuthState(auth);
+    const [isFavorite, setIsFavorite] = useState(false);
+
     const handleEdit = () => {
         setEditing(true);
+    }
+
+    useEffect(() => {
+        if (recipe && recipe.favorite !== undefined) {
+            setIsFavorite(recipe.favorite === true);
+        }
+    }, [recipe]);
+
+    const handleSetFavorite = () => {
+
+        // update the recipe in the database
+        const recipeRef = doc(db, 'users', user.uid, 'recipes', recipe.id);
+        const update = {
+            favorite: !isFavorite
+        }
+        updateDoc(recipeRef, update);
+        setIsFavorite(!isFavorite);
     }
 
     if (!recipe) return null;
@@ -27,6 +50,10 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
                 <div className='flex justify-between gap-2'>
                     <PageHeader title={recipe.title} />
                     <div className='flex gap-5 h-fit items-baseline self-center'>
+                        <button name='toggle edit' className='text-button page-button' onClick={handleSetFavorite}>
+                            <p>Favorite</p>
+                            {isFavorite ? <FavoriteIcon /> : <NotFavoriteIcon />}
+                        </button>
                         <button name='toggle edit' className='text-button page-button' onClick={handleEdit}>
                             <p>Edit</p>
                             <EditIcon />
