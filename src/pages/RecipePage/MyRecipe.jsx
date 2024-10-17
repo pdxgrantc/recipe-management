@@ -23,6 +23,7 @@ export default function MyRecipe() {
   const [recipe, setRecipe] = useState(null);
   const [photoURLs, setPhotoURLs] = useState([]);
 
+  // UseEffect to fetch the recipe from the database and call fetchPhotoURLs
   useEffect(() => {
     if (!user) return;
 
@@ -34,6 +35,9 @@ export default function MyRecipe() {
         setRecipe(recipeNoId);
       } else {
         setRecipe(null);
+
+        // if the recipe doesn't throw an error
+        throw new Response("", { status: 404 });
       }
     });
 

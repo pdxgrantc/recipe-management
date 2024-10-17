@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, NavLink, Link, Outlet } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, RouterProvider, isRouteErrorResponse, BrowserRouter, Routes, Route, NavLink, Link, Outlet } from 'react-router-dom';
 
 // Firebase
 import { auth, SignIn, SignOut } from './firebase';
@@ -19,8 +19,10 @@ import SignInDialogue from './assets/SignInDialogue';
 import { SiGithub as GitHubLogo } from "react-icons/si";
 import { FaLinkedinIn as LinkedLogo } from "react-icons/fa";
 import { IoPersonCircleSharp as AboutLogo } from "react-icons/io5";
+import RootBoundry from './pages/RootBoundry/RootBoundry';
 
 
+/*
 export default function App() {
   return (
     <BrowserRouter>
@@ -31,10 +33,34 @@ export default function App() {
           <Route path="/create-recipe" element={<CreateRecipe />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/recipe/my/:id" element={<MyRecipe />} />
+          <Route
+            path="*"
+            element={<RootBoundry />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
   )
+}
+*/
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Root />} errorElement={<RootBoundry />} caseSensitive={true}>
+      <Route index element={<Dashboard />} />
+      <Route path="my-recipes" element={<MyRecipes />} />
+      <Route path="create-recipe" element={<CreateRecipe />} />
+      <Route path="settings" element={<Settings />} />
+      <Route path="recipe/my/:id" element={<MyRecipe />} errorElement={<RootBoundry />} />
+      <Route path="*" element={<RootBoundry />} />
+    </Route>
+  )
+);
+
+export default function App() {
+  return (
+    <RouterProvider router={router} />
+  );
 }
 
 function Root(props) {
