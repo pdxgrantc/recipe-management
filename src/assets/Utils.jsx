@@ -22,7 +22,7 @@ export function PageHeader({ title }) {
             <>
                 <HelmetProvider>
                     <Helmet>
-                        <title>Ez Recipe</title>
+                        <title>Ez recipe</title>
                     </Helmet>
                 </HelmetProvider>
 
@@ -35,7 +35,7 @@ export function PageHeader({ title }) {
         <>
             <HelmetProvider>
                 <Helmet>
-                    <title>Ez Recipe - {title}</title>
+                    <title>Ez recipe - {title}</title>
                 </Helmet>
             </HelmetProvider>
 
