@@ -22,29 +22,6 @@ import { SiGithub as GitHubLogo } from "react-icons/si";
 import { FaLinkedinIn as LinkedLogo } from "react-icons/fa";
 import { IoPersonCircleSharp as AboutLogo } from "react-icons/io5";
 
-
-/*
-export default function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Root />} caseSensitive={true}>
-          <Route index element={<Dashboard />} />
-          <Route path="/my-recipes" element={<MyRecipes />} />
-          <Route path="/create-recipe" element={<CreateRecipe />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/recipe/my/:id" element={<MyRecipe />} />
-          <Route
-            path="*"
-            element={<RootBoundry />}
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  )
-}
-*/
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />} errorElement={<RootBoundry />} caseSensitive={true}>

@@ -27,15 +27,12 @@ export default function MyRecipe() {
 
   // UseEffect to fetch the recipe from the database and call fetchPhotoURLs
   useEffect(() => {
-    console.log('Fetching recipe...');
-
     async function fetchRecipe() {
       try {
         const recipeRef = doc(db, "users", user.uid, 'recipes', id);
         const docSnap = await getDoc(recipeRef);
 
         if (docSnap.exists()) {
-          console.log('Recipe exists and user has access');
           const recipeNoId = docSnap.data();
           recipeNoId.id = docSnap.id;
           setRecipe(recipeNoId);
