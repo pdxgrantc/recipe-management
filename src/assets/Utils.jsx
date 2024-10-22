@@ -8,7 +8,7 @@ import Switch from '@mui/material/Switch';
 export function PageDisplay({ children, classes }) {
     return (
         <>
-            <div className={`flex flex-col gap-5 ${classes ? classes : ''}`}>
+            <div className={`min-w-fit flex flex-col gap-5 ${classes ? classes : ''}`}>
                 {children}
             </div>
         </>

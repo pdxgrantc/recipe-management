@@ -47,9 +47,8 @@ function Root(props) {
   const [user] = useAuthState(auth);
 
   return (
-    <div className='text'>
+    <div className='text min-w-fit'>
       <Header />
-
       <div className='bg px-main py-10 pb-20 flex-grow' style={{ minHeight: "calc(100vh - 17.5rem)" }}>
         {user ? (
           <main className='flex flex-col gap-4'>{children || <Outlet />}</main>

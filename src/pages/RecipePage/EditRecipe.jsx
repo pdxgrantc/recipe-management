@@ -119,6 +119,8 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
             });
         }
     };
+
+    
     return (
         <>
             <div className='flex gap-5'>
@@ -203,7 +205,7 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
 }
 
 function SortableIngredient({ index, ingredient, ingredients, setIngredients, handleDeleteIngredient }) {
-    const {attributes, listeners, setNodeRef, transform, transition} = useSortable({ id: index });
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: index });
     const style = {
         transition,
         transform: CSS.Transform.toString(transform),
