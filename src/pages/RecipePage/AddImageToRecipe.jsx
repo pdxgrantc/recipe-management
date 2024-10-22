@@ -35,7 +35,15 @@ export default function AddImageToRecipe({ fetchPhotoURLs }) {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/*', // Only accept image files
+    accept: {
+      'image/jpeg': ['.jpeg', '.jpg'], // Accept JPEG images
+      'image/png': ['.png'], // Accept PNG images
+      'image/svg+xml': ['.svg'], // Accept SVG images
+      'image/avif': ['.avif'], // Accept AVIF images
+      'image/gif': ['.gif'], // Accept GIF images
+      'image/tiff': ['.tiff', '.tif'], // Accept TIFF images
+      'image/webp': ['.webp'], // Accept WebP images
+    },
   });
 
   const handleUpload = async () => {
