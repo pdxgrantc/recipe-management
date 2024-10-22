@@ -11,6 +11,8 @@ import MyRecipes from './pages/MyRecipes/MyRecipes';
 import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
 import MyRecipe from './pages/RecipePage/MyRecipe';
 import Settings from './pages/Settings/Settings';
+import RootBoundry from './pages/ErrorHandling/RootBoundry';
+import NotFound from './pages/ErrorHandling/NotFound';
 
 // Components
 import SignInDialogue from './assets/SignInDialogue';
@@ -19,7 +21,6 @@ import SignInDialogue from './assets/SignInDialogue';
 import { SiGithub as GitHubLogo } from "react-icons/si";
 import { FaLinkedinIn as LinkedLogo } from "react-icons/fa";
 import { IoPersonCircleSharp as AboutLogo } from "react-icons/io5";
-import RootBoundry from './pages/RootBoundry/RootBoundry';
 
 
 /*
@@ -51,8 +52,9 @@ const router = createBrowserRouter(
       <Route path="my-recipes" element={<MyRecipes />} />
       <Route path="create-recipe" element={<CreateRecipe />} />
       <Route path="settings" element={<Settings />} />
-      <Route path="recipe/my/:id" element={<MyRecipe />} errorElement={<RootBoundry />} />
-      <Route path="*" element={<RootBoundry />} />
+      <Route path="recipe/my/:id" element={<MyRecipe />} />
+      <Route path="404" element={<NotFound />} /> {/* Add the 404 error route */}
+      <Route path="*" element={<NotFound />} />
     </Route>
   )
 );

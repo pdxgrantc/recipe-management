@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 // Firebase
 import { auth, db, storage } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, getDoc } from 'firebase/firestore';
 import { ref, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 
 // Components
@@ -19,34 +19,48 @@ export default function MyRecipe() {
   const [user] = useAuthState(auth);
   const [editing, setEditing] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [recipe, setRecipe] = useState(null);
   const [photoURLs, setPhotoURLs] = useState([]);
+  const [error, setError] = useState(null);
 
   // UseEffect to fetch the recipe from the database and call fetchPhotoURLs
   useEffect(() => {
-    if (!user) return;
+    console.log('Fetching recipe...');
 
-    const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
-    const unsubscribe = onSnapshot(recipeRef, (doc) => {
-      if (doc.exists()) {
-        const recipeNoId = doc.data();
-        recipeNoId.id = doc.id;
-        setRecipe(recipeNoId);
-      } else {
-        setRecipe(null);
+    async function fetchRecipe() {
+      try {
+        const recipeRef = doc(db, "users", user.uid, 'recipes', id);
+        const docSnap = await getDoc(recipeRef);
 
-        // if the recipe doesn't throw an error
-        throw new Response("", { status: 404 });
+        if (docSnap.exists()) {
+          console.log('Recipe exists and user has access');
+          const recipeNoId = docSnap.data();
+          recipeNoId.id = docSnap.id;
+          setRecipe(recipeNoId);
+        } else {
+          // Recipe doesn't exist or user doesn't have access
+          throw new Error('Recipe not found.');
+        }
+      } catch (err) {
+        setError(err);
+        navigate('/404', {
+          state: {
+            code: 404,
+            error: err.message
+          }
+        }); // Navigate to the 404 error page
       }
-    });
+    }
 
-    return () => unsubscribe();
-  }, [user, id]);
+    fetchRecipe();
+  }, [id, user.uid, navigate]);
 
   useEffect(() => {
     if (!user) return;
 
+    // fetch the photo URLs after a recipe is successfully fetched
     fetchPhotoURLs();
   }, [user, id]);
 
