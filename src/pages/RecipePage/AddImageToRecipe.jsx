@@ -64,7 +64,6 @@ export default function AddImageToRecipe({ fetchPhotoURLs }) {
       return;
     }
 
-
     setShowUploadProgress(true);
 
     const randomName = uuidv4(); // Generate a random name
