@@ -60,6 +60,7 @@ function CreateForm() {
         const date = new Date();
 
         const recipe = {
+            createdBy: user.uid,
             dateCreated: date,
             dateUpdated: date,
             title,

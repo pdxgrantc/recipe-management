@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 // Firebase
 import { auth, db } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 
 // Icons
 import { FaRegEdit as EditIcon } from "react-icons/fa";
@@ -31,16 +31,50 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
         }
     }, [recipe]);
 
-    const handleSetFavorite = () => {
+    const handleSetFavorite = async () => {
+        // if the recipe is created by the logged in user
+        if (recipe.createdBy === user.uid) {
+            try {
+                console.log(isFavorite)
+                if (isFavorite === false) {
+                    console.log('favorite');
+                    // Firebase reference to the recipe document to be favorited
+                    const recipeRef = doc(db, 'users', user.uid, 'recipes', recipe.id);
+                    // Firebase reference to the favorite document
+                    const favoriteRef = doc(db, 'users', user.uid, 'favorites', recipe.id);
+                    // Document that stores the reference to the favorite recipe
+                    const favoriteData = {
+                        recipeReference: favoriteRef,
+                    };
+                    // Add/update the favorite document in the database
+                    console.log(favoriteData);
+                    await setDoc(favoriteRef, favoriteData);
 
-        // update the recipe in the database
-        const recipeRef = doc(db, 'users', user.uid, 'recipes', recipe.id);
-        const update = {
-            favorite: !isFavorite
+                    // Update the recipe in the database
+                    await updateDoc(recipeRef, {
+                        favorite: !isFavorite
+                    });
+                    setIsFavorite(!isFavorite);
+                } else {
+                    // Firebase reference to the favorite document
+                    const favoriteRef = doc(db, 'users', user.uid, 'favorites', recipe.id);
+                    // Delete the favorite document from the database
+                    await deleteDoc(favoriteRef);
+
+                    // Firebase reference to the recipe document to be unfavorited
+                    const recipeRef = doc(db, 'users', user.uid, 'recipes', recipe.id);
+                    // Update the recipe in the database
+                    await updateDoc(recipeRef, {
+                        favorite: !isFavorite
+                    });
+
+                    setIsFavorite(!isFavorite);
+                }
+            } catch (error) {
+                console.error('Error updating favorite status:', error);
+            }
         }
-        updateDoc(recipeRef, update);
-        setIsFavorite(!isFavorite);
-    }
+    };
 
     if (!recipe) return null;
 

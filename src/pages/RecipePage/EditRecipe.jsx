@@ -224,7 +224,6 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                     </div>
                 </div>
             </div>
-
         </>
     )
 }
