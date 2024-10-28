@@ -2,6 +2,7 @@ import React from 'react'
 
 // Components
 import MyRecentRecipes from '../../assets/MyRecentRecipes';
+import FavoriteRecipes from './FavoriteRecipes';
 
 // Utils
 import { PageDisplay, PageHelmet, SubTitle } from '../../assets/Utils';
@@ -13,6 +14,13 @@ export default function Dashboard() {
         <>
             <PageHelmet title={"Dashboard"} />
             <PageDisplay>
+                <div className='flex flex-col gap-2'>
+                    <div className='flex gap-5 justify-between'>
+                        <SubTitle text='Your Favorite Recipes' />
+                        <Link to='/my-recipes' className='page-button text-button'>View All</Link>
+                    </div>
+                    <FavoriteRecipes numRecipes={6} />
+                </div>
                 <div className='flex flex-col gap-2'>
                     <div className='flex gap-5 justify-between'>
                         <SubTitle text='Your Recently Updated Recipes ' />

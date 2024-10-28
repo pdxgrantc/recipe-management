@@ -35,7 +35,6 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
         // if the recipe is created by the logged in user
         if (recipe.createdBy === user.uid) {
             try {
-                console.log(isFavorite)
                 if (isFavorite === false) {
                     console.log('favorite');
                     // Firebase reference to the recipe document to be favorited
@@ -45,9 +44,9 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
                     // Document that stores the reference to the favorite recipe
                     const favoriteData = {
                         recipeReference: favoriteRef,
+                        dateAdded: new Date()
                     };
                     // Add/update the favorite document in the database
-                    console.log(favoriteData);
                     await setDoc(favoriteRef, favoriteData);
 
                     // Update the recipe in the database
