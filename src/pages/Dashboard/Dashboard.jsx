@@ -33,8 +33,6 @@ export default function Dashboard() {
             const recipesRef = collection(db, `users/${auth.currentUser.uid}/favorites`);
             const recipesSnapshot = await getDocs(recipesRef);
             setNumTotalFavorites(recipesSnapshot.size);
-
-            console.log(recipesSnapshot.size)
         }
         getNumRecipes();
     }, [])
