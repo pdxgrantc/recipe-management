@@ -68,10 +68,7 @@ export default function FavoriteRecipes({ numRecipes }) {
                 }
             }));
             setFavoriteRecipesWithThumbnails(updatedRecipes);
-
         };
-
-
 
         if (favoriteRecipes.length > 0) {
             fetchThumbnails();

@@ -17,6 +17,7 @@ export default function MyRecentRecipes({ numRecipes }) {
 
     // Fetch input number of recipes from Firestore
     useEffect(() => {
+        console.log(numRecipes)
         if (user) {
             const recipesRef = collection(db, 'users', user.uid, 'recipes');
             const recipesQuery = query(recipesRef, orderBy('dateUpdated', 'desc'), limit(numRecipes));
@@ -60,6 +61,8 @@ export default function MyRecentRecipes({ numRecipes }) {
     }, [recipes, user]);
 
     return (
-        <MyRecipeList recipes={recipesWithThumbnails} />
+        <>
+            <MyRecipeList recipes={recipesWithThumbnails} />
+        </>
     );
 }
