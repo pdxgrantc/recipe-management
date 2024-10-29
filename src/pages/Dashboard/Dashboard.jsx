@@ -33,10 +33,11 @@ export default function Dashboard() {
             const recipesRef = collection(db, `users/${auth.currentUser.uid}/favorites`);
             const recipesSnapshot = await getDocs(recipesRef);
             setNumTotalFavorites(recipesSnapshot.size);
+
+            console.log(recipesSnapshot.size)
         }
         getNumRecipes();
     }, [])
-
 
     return (
         <>
@@ -48,7 +49,7 @@ export default function Dashboard() {
                             <SubTitle text='Your Favorite Recipes' />
                             <Link to='/favorite-recipes' className='page-button text-button'>View All</Link>
                         </div>
-                        <MyFavoriteRecipes numRecipes={6} numTotalFavorites={numTotalFavorites} />
+                        <MyFavoriteRecipes numRecipes={6} />
                     </div>
                 }
                 {numTotalRecipes !== 0 &&
@@ -57,7 +58,7 @@ export default function Dashboard() {
                             <SubTitle text='Your Recently Updated Recipes ' />
                             <Link to='/my-recipes' className='page-button text-button'>View All</Link>
                         </div>
-                        <MyRecentRecipes numRecipes={6} numTotalRecipes={numTotalRecipes} />
+                        <MyRecentRecipes numRecipes={6} />
                     </div>
                 }
             </PageDisplay>
