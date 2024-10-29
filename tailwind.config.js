@@ -39,7 +39,7 @@ export default {
         m: '1.25rem',
         s: '1rem',
         pageTitle: '3rem',
-        subTitle: '2rem',
+        subTitle: '3rem',
       },
       borderRadius: {
         DEFAULT: '0.5rem',

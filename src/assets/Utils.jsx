@@ -62,6 +62,14 @@ export function SubTitle({ text, classes }) {
     );
 }
 
+export function CardTitle({ text, classes }) {
+    return (
+        <h2 className={`text-xxl font-bold ${classes ? classes : ''}`}>
+            {text}
+        </h2>
+    );
+}
+
 export function TableHeader({ text }) {
     return (
         <h3 className='text-tableHeader font-bold'>{text}</h3>
