@@ -9,7 +9,7 @@ import { ref, listAll, getDownloadURL } from 'firebase/storage';
 // Utils
 import MyRecipeList from '../../assets/MyRecipeList';
 
-export default function FavoriteRecipes({ numRecipes }) {
+export default function MyFavoriteRecipes({ numRecipes }) {
     const [user] = useAuthState(auth);
     const [favoriteRecipes, setFavoriteRecipes] = useState([]);
     const [favoriteRecipesWithThumbnails, setFavoriteRecipesWithThumbnails] = useState([]);

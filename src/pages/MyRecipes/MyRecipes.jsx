@@ -10,10 +10,10 @@ export default function MyRecipe() {
     
     return (
         <div className='flex flex-col gap-2'>
-            <PageHeader title='Recipes' />
+            <PageHeader title='Your Recipes' />
             <PageDisplay>
                 <MyRecentRecipes numRecipes={numRecentRecipes} />
-                <button onClick={() => setNumRecentRecipes(numRecentRecipes + 6)} className='btn btn-primary'>Load More</button>
+                <button onClick={() => setNumRecentRecipes(numRecentRecipes + 6)} className='page-button text-button'>Load More</button>
             </PageDisplay>
         </div>
     );

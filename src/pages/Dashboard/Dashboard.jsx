@@ -2,7 +2,7 @@ import React from 'react'
 
 // Components
 import MyRecentRecipes from '../../assets/MyRecentRecipes';
-import FavoriteRecipes from './FavoriteRecipes';
+import MyFavoriteRecipes from '../FavoriteRecipes/MyFavoriteRecipes';
 
 // Utils
 import { PageDisplay, PageHelmet, SubTitle } from '../../assets/Utils';
@@ -17,9 +17,9 @@ export default function Dashboard() {
                 <div className='flex flex-col gap-2'>
                     <div className='flex gap-5 justify-between'>
                         <SubTitle text='Your Favorite Recipes' />
-                        <Link to='/my-recipes' className='page-button text-button'>View All</Link>
+                        <Link to='/favorite-recipes' className='page-button text-button'>View All</Link>
                     </div>
-                    <FavoriteRecipes numRecipes={6} />
+                    <MyFavoriteRecipes numRecipes={6} />
                 </div>
                 <div className='flex flex-col gap-2'>
                     <div className='flex gap-5 justify-between'>
