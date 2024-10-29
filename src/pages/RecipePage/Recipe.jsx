@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 // Firebase
 import { auth, db } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
 
 // Icons
 import { FaRegEdit as EditIcon } from "react-icons/fa";
@@ -43,7 +43,7 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
                     const favoriteRef = doc(db, 'users', user.uid, 'favorites', recipe.id);
                     // Document that stores the reference to the favorite recipe
                     const favoriteData = {
-                        recipeReference: favoriteRef,
+                        recipeReference: `/users/${user.uid}/recipes/${recipe.id}`,
                         dateAdded: new Date()
                     };
                     // Add/update the favorite document in the database
