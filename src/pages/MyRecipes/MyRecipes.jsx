@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+
+// Firebase
+import { auth, db } from '../../firebase';
+import { getDocs, collection } from 'firebase/firestore';
 
 // Utils
 import { PageDisplay, PageHeader } from '../../assets/Utils'
 import MyRecentRecipes from '../../assets/MyRecentRecipes';
 
 
-export default function MyRecipe() {
+export default function MyRecipe({numTotalRecipes}) {
     const [numRecentRecipes, setNumRecentRecipes] = useState(6);
     
     return (
@@ -13,7 +17,7 @@ export default function MyRecipe() {
             <PageHeader title='Your Recipes' />
             <PageDisplay>
                 <MyRecentRecipes numRecipes={numRecentRecipes} />
-                <button onClick={() => setNumRecentRecipes(numRecentRecipes + 6)} className='page-button text-button'>Load More</button>
+                {numRecentRecipes < numTotalRecipes && <button onClick={() => setNumRecentRecipes(numRecentRecipes + 6)} className='page-button text-button'>Load More</button>}
             </PageDisplay>
         </div>
     );
