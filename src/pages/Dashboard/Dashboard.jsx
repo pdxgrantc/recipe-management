@@ -37,6 +37,7 @@ export default function Dashboard() {
         getNumRecipes();
     }, [])
 
+    
     return (
         <>
             <PageHelmet title={"Dashboard"} />

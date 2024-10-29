@@ -129,7 +129,7 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-10 max-w-[75rem]'>
-                <AddImageToRecipe fetchPhotoURLs={fetchPhotoURLs} />
+                {!recipe.hasImage && <AddImageToRecipe fetchPhotoURLs={fetchPhotoURLs} hasImage={recipe.hasImage} />}
                 {photoURLs.length !== 0 ? <EditPhotoDisplay photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} /> : <div></div>}
             </div>
             <div className='flex flex-col gap-5 w-fit'>
