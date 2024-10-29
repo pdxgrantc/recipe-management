@@ -41,25 +41,34 @@ export default function Dashboard() {
         <>
             <PageHelmet title={"Dashboard"} />
             <PageDisplay>
-                {numTotalFavorites !== 0 &&
-                    <div className='flex flex-col gap-2'>
-                        <div className='flex gap-5 justify-between'>
-                            <SubTitle text='Your Favorite Recipes' />
-                            <Link to='/favorite-recipes' className='page-button text-button'>View All</Link>
-                        </div>
-                        <MyFavoriteRecipes numRecipes={6} />
+                {((numTotalRecipes !== 0) && (numTotalFavorites !== 0)) ?
+                    <>
+                        {numTotalFavorites !== 0 &&
+                            <div className='flex flex-col gap-2'>
+                                <div className='flex gap-5 justify-between'>
+                                    <SubTitle text='Your Favorite Recipes' />
+                                    <Link to='/favorite-recipes' className='page-button text-button'>View All</Link>
+                                </div>
+                                <MyFavoriteRecipes numRecipes={6} />
+                            </div>
+                        }
+                        {numTotalRecipes !== 0 &&
+                            <div className='flex flex-col gap-2'>
+                                <div className='flex gap-5 justify-between'>
+                                    <SubTitle text='Your Recently Updated Recipes ' />
+                                    <Link to='/my-recipes' className='page-button text-button'>View All</Link>
+                                </div>
+                                <MyRecentRecipes numRecipes={6} />
+                            </div>
+                        }
+                    </>
+                    :
+                    <div>
+                        <SubTitle text='You have no recipes yet.' />
+                        <Link to='/create-recipe' className='page-button text-button'>Add a Recipe Here</Link>
                     </div>
                 }
-                {numTotalRecipes !== 0 &&
-                    <div className='flex flex-col gap-2'>
-                        <div className='flex gap-5 justify-between'>
-                            <SubTitle text='Your Recently Updated Recipes ' />
-                            <Link to='/my-recipes' className='page-button text-button'>View All</Link>
-                        </div>
-                        <MyRecentRecipes numRecipes={6} />
-                    </div>
-                }
-            </PageDisplay>
+            </PageDisplay >
         </>
     )
 }
