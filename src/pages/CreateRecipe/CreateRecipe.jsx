@@ -7,7 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { addDoc, collection } from 'firebase/firestore';
 
 // Utils
-import { PageDisplay, PageHeader, SubTitle } from '../../assets/Utils'
+import { PageDisplay, PageHeader, CardTitle } from '../../assets/Utils'
 
 // Icons
 import { MdOutlineCancel as DeleteIcon } from "react-icons/md";
@@ -91,7 +91,7 @@ function CreateForm() {
                 <textarea className='min-h-20' name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
             <div className='flex flex-col gap-2'>
-                <SubTitle text='Ingredients' />
+                <CardTitle text='Ingredients' />
                 {ingredients.length !== 0 &&
                     <ul className='flex flex-col gap-2'>
                         {ingredients.map((ingredient, index) => (
@@ -169,7 +169,7 @@ function CreateForm() {
                 <button onClick={handleAddIngredient} className='text-button page-button'>Add Ingredient</button>
             </div>
             <div className='flex flex-col gap-2 w-full'>
-                <SubTitle text='Instructions' />
+                <CardTitle text='Instructions' />
                 {steps.length !== 0 &&
                     <ul className='flex flex-col gap-2'>
                         {steps.map((step, index) => (
@@ -189,7 +189,7 @@ function CreateForm() {
                 <button onClick={handleAddStep} className='text-button page-button'>Add Step</button>
             </div>
             <div>
-                <SubTitle text='Notes' />
+                <CardTitle text='Notes' />
                 <textarea className='w-full h-fit min-h-40' name="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div>

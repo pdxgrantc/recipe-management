@@ -64,7 +64,7 @@ export function SubTitle({ text, classes }) {
 
 export function CardTitle({ text, classes }) {
     return (
-        <h2 className={`text-xxl font-bold ${classes ? classes : ''}`}>
+        <h2 className={`text-subheader font-bold ${classes ? classes : ''}`}>
             {text}
         </h2>
     );
