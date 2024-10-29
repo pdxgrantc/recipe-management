@@ -85,9 +85,9 @@ function CreateForm() {
     }
 
     return (
-        <div className='flex flex-col gap-2'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
             <div className='flex flex-col gap-2'>
-                <input name="Recipe Title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                <input required name="Recipe Title" type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
                 <textarea className='min-h-20' name="Description" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
             </div>
             <div className='flex flex-col gap-2'>
@@ -193,8 +193,8 @@ function CreateForm() {
                 <textarea className='w-full h-fit min-h-40' name="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </div>
             <div>
-                <button onClick={handleSubmit} className='text-button page-button'>Submit</button>
+                <button type='submit' className='text-button page-button'>Submit</button>
             </div>
-        </div>
+        </form>
     )
 }
