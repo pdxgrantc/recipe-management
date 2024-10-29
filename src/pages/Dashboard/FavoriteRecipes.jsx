@@ -12,6 +12,7 @@ import MyRecipeList from '../../assets/MyRecipeList';
 export default function FavoriteRecipes({ numRecipes }) {
     const [user] = useAuthState(auth);
     const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+    const [favoriteRecipesWithThumbnails, setFavoriteRecipesWithThumbnails] = useState([]);
 
     // Fetch input number of favorite documents from Firestore (refrences to the recipes)
     useEffect(() => {
@@ -49,9 +50,40 @@ export default function FavoriteRecipes({ numRecipes }) {
         fetchFavorites();
     }, [user, numRecipes]);
 
+
+    useEffect(() => {
+        const fetchThumbnails = async () => {
+            const updatedRecipes = await Promise.all(favoriteRecipes.map(async (recipe) => {
+                try {
+                    const imagesRef = ref(storage, `users/${user.uid}/recipes/${recipe.id}`);
+                    const result = await listAll(imagesRef);
+                    if (result.items.length > 0) {
+                        const imageUrl = await getDownloadURL(result.items[0]);
+                        return { ...recipe, thumbnail: imageUrl };
+                    }
+                    return recipe;
+                } catch (error) {
+                    console.error('Error fetching image URL:', error);
+                    return recipe;
+                }
+            }));
+            setFavoriteRecipesWithThumbnails(updatedRecipes);
+
+        };
+
+
+
+        if (favoriteRecipes.length > 0) {
+            fetchThumbnails();
+        }
+    }, [favoriteRecipes, user]);
+
+
+
+
     return (
         <div>
-            <MyRecipeList recipes={favoriteRecipes} />
+            <MyRecipeList recipes={favoriteRecipesWithThumbnails} />
         </div>
     );
 }
