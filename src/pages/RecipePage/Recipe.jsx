@@ -17,7 +17,8 @@ import PhotoDisplay from './PhotoDisplay';
 import { PageHeader, SubTitle } from '../../assets/Utils';
 
 
-export default function RecipePage({ recipe, setEditing, photoURLs }) {
+export default function RecipePage({ recipe, setEditing, photoURL }) {
+
     const [user] = useAuthState(auth);
     const [isFavorite, setIsFavorite] = useState(false);
 
@@ -82,7 +83,7 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
                 <div className='flex justify-between gap-2'>
                     <PageHeader title={recipe.title} />
                     <div className='flex gap-5 h-fit items-baseline self-center'>
-                        <button name='toggle edit' className='text-button page-button' onClick={handleSetFavorite}>
+                        <button name='set favorite' className='text-button page-button' onClick={handleSetFavorite}>
                             <p>Favorite</p>
                             {isFavorite ? <FavoriteIcon /> : <NotFavoriteIcon />}
                         </button>
@@ -93,9 +94,9 @@ export default function RecipePage({ recipe, setEditing, photoURLs }) {
                     </div>
                 </div>
                 <div className='relative'>
-                    {photoURLs.length > 0 &&
+                    {recipe.hasImage &&
                         <div className='absolute top-0 right-0 w-[30rem] h-[25rem]'>
-                            <PhotoDisplay photoURLs={photoURLs} />
+                            <PhotoDisplay photoURL={photoURL} />
                         </div>
                     }
                     <div className='pr-[30rem] flex flex-col gap-2'>

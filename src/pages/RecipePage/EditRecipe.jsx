@@ -18,7 +18,7 @@ import AddImageToRecipe from './AddImageToRecipe';
 import EditPhotoDisplay from './EditPhotoDisplay';
 
 
-export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, photoURLs, fetchPhotoURLs }) {
+export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, photoURL, fetchPhotoURLs }) {
     const [user] = useAuthState(auth);
 
     // get recipe id from url   
@@ -91,7 +91,7 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
         await deleteDoc(recipeRef);
 
         // delete photos from firebase storage
-        photoURLs.forEach(async (photo) => {
+        photoURL.forEach(async (photo) => {
             await handleDeletePhoto(photo.id, photo.index);
         });
 
@@ -129,8 +129,7 @@ export default function EditRecipe({ recipe, setEditing, handleDeletePhoto, phot
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-10 max-w-[75rem]'>
-                {!recipe.hasImage && <AddImageToRecipe fetchPhotoURLs={fetchPhotoURLs} hasImage={recipe.hasImage} />}
-                {photoURLs.length !== 0 ? <EditPhotoDisplay photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} /> : <div></div>}
+                {!recipe.hasImage ? <AddImageToRecipe fetchPhotoURLs={fetchPhotoURLs} hasImage={recipe.hasImage} /> : <EditPhotoDisplay photoURL={photoURL} handleDeletePhoto={handleDeletePhoto} />}
             </div>
             <div className='flex flex-col gap-5 w-fit'>
                 <div className='flex flex-col gap-2'>

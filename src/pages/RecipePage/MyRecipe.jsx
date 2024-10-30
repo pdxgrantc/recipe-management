@@ -22,10 +22,10 @@ export default function MyRecipe() {
   const navigate = useNavigate();
 
   const [recipe, setRecipe] = useState(null);
-  const [photoURLs, setPhotoURLs] = useState([]);
+  const [photoURL, setPhotoURL] = useState([]);
   const [error, setError] = useState(null);
 
-  // UseEffect to fetch the recipe from the database and call fetchPhotoURLs
+  // UseEffect to fetch the recipe from the database and call fetchPhotoURL
   useEffect(() => {
     async function fetchRecipe() {
       try {
@@ -57,21 +57,25 @@ export default function MyRecipe() {
   useEffect(() => {
     if (!user) return;
 
-    // fetch the photo URLs after a recipe is successfully fetched
-    fetchPhotoURLs();
+    // fetch the photo URL after a recipe is successfully fetched
+    fetchPhotoURL();
   }, [user, id]);
 
-  const fetchPhotoURLs = async () => {
+  const fetchPhotoURL = async () => {
     try {
       const storageRef = ref(storage, `users/${user.uid}/recipes/${id}`);
       const result = await listAll(storageRef);
-      const urls = await Promise.all(result.items.map(async (item) => {
-        const url = await getDownloadURL(item);
-        return { id: item.name, url };
-      }));
-      setPhotoURLs(urls);
+
+      if (result.items.length > 0) {
+        const firstItem = result.items[0];
+        const downloadURL = await getDownloadURL(firstItem);
+        const urlOBJ = { id: firstItem.name, url: downloadURL };
+        setPhotoURL(urlOBJ);
+      } else {
+        setPhotoURL([]); // No photos found
+      }
     } catch (error) {
-      console.error('Error fetching photo URLs:', error);
+      console.error('Error fetching photo URL:', error);
     }
   };
 
@@ -81,11 +85,11 @@ export default function MyRecipe() {
       await deleteObject(photoRef);
 
       // delete the photo from the array
-      const newPhotoURLs = [...photoURLs];
-      newPhotoURLs.splice(index, 1);
+      const newPhotoURL = [...photoURL];
+      newPhotoURL.splice(index, 1);
 
-      // update photoURLs state
-      setPhotoURLs(newPhotoURLs);
+      // update photoURL state
+      setPhotoURL(newPhotoURL);
     } catch (error) {
       console.error('Error deleting photo:', error);
     }
@@ -94,9 +98,9 @@ export default function MyRecipe() {
   return (
     <PageDisplay>
       {editing ?
-        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} fetchPhotoURLs={fetchPhotoURLs} />
+        <EditRecipe recipe={recipe} setEditing={setEditing} photoURL={photoURL} handleDeletePhoto={handleDeletePhoto} fetchPhotoURL={fetchPhotoURL} />
         :
-        <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} />
+        <Recipe recipe={recipe} setEditing={setEditing} photoURL={photoURL} />
       }
     </PageDisplay>
   );
