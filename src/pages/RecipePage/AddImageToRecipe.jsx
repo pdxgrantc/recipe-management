@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 
 // Firebase
-import { auth, storage } from '../../firebase';
+import { auth, db, storage } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc, updateDoc } from 'firebase/firestore';
 import { ref, uploadBytesResumable } from 'firebase/storage';
 
 // Utils
@@ -13,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Icons
 import { MdOutlineCancel as CancelIcon } from "react-icons/md";
 
-export default function AddImageToRecipe({ fetchPhotoURLs }) {
+export default function AddImageToRecipe({ fetchPhotoURLs, hasImage }) {
   const [user] = useAuthState(auth);
 
   // get the id of the recipe from the url
@@ -35,10 +36,23 @@ export default function AddImageToRecipe({ fetchPhotoURLs }) {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'image/*', // Only accept image files
+    accept: {
+      'image/jpeg': ['.jpeg', '.jpg'], // Accept JPEG images
+      'image/png': ['.png'], // Accept PNG images
+      'image/svg+xml': ['.svg'], // Accept SVG images
+      'image/avif': ['.avif'], // Accept AVIF images
+      'image/gif': ['.gif'], // Accept GIF images
+      'image/tiff': ['.tiff', '.tif'], // Accept TIFF images
+      'image/webp': ['.webp'], // Accept WebP images
+    },
   });
 
   const handleUpload = async () => {
+    if (hasImage === true) {
+      setErrorMessage('Only one image is allowed per recipe.');
+      return;
+    }
+
     if (!file) {
       return;
     }
@@ -55,7 +69,6 @@ export default function AddImageToRecipe({ fetchPhotoURLs }) {
       setErrorMessage('File size exceeds the 10MB limit.');
       return;
     }
-
 
     setShowUploadProgress(true);
 
@@ -74,6 +87,10 @@ export default function AddImageToRecipe({ fetchPhotoURLs }) {
         console.error('Error uploading file:', error);
       },
       () => {
+        // Upload completed successfully, update the recipe document
+        const recipeRef = doc(db, `users/${user.uid}/recipes/${recipeID}`);
+        updateDoc(recipeRef, {hasImage: true})
+        // Fetch the photo URL
         fetchPhotoURLs();
         setTimeout(() => {
           setShowUploadProgress(false);

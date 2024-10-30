@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, NavLink, Link, Outlet } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, RouterProvider, isRouteErrorResponse, BrowserRouter, Routes, Route, NavLink, Link, Outlet } from 'react-router-dom';
 
 // Firebase
 import { auth, SignIn, SignOut } from './firebase';
@@ -11,7 +11,9 @@ import MyRecipes from './pages/MyRecipes/MyRecipes';
 import CreateRecipe from './pages/CreateRecipe/CreateRecipe';
 import MyRecipe from './pages/RecipePage/MyRecipe';
 import Settings from './pages/Settings/Settings';
-import ErrorPage from './pages/ErrorPage';
+import FavoriteRecipes from './pages/FavoriteRecipes/FavoriteRecipes';
+import RootBoundry from './pages/ErrorHandling/RootBoundry';
+import NotFound from './pages/ErrorHandling/NotFound';
 
 // Components
 import SignInDialogue from './assets/SignInDialogue';
@@ -21,22 +23,25 @@ import { SiGithub as GitHubLogo } from "react-icons/si";
 import { FaLinkedinIn as LinkedLogo } from "react-icons/fa";
 import { IoPersonCircleSharp as AboutLogo } from "react-icons/io5";
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Root />} errorElement={<RootBoundry />} caseSensitive={true}>
+      <Route index element={<Dashboard />} />
+      <Route path="my-recipes" element={<MyRecipes />} />
+      <Route path="create-recipe" element={<CreateRecipe />} />
+      <Route path="settings" element={<Settings />} />
+      <Route path="recipe/my/:id" element={<MyRecipe />} />
+      <Route path="favorite-recipes" element={<FavoriteRecipes />} />
+      <Route path="404" element={<NotFound />} /> {/* Add the 404 error route */}
+      <Route path="*" element={<NotFound />} />
+    </Route>
+  )
+);
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Root />} caseSensitive={true}>
-          <Route index element={<Dashboard />} />
-          <Route path="/my-recipes" element={<MyRecipes />} />
-          <Route path="/create-recipe" element={<CreateRecipe />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/recipe/my/:id" element={<MyRecipe />} errorElement={<ErrorPage />} />
-          <Route path="*" element={<ErrorPage />}  />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  )
+    <RouterProvider router={router} />
+  );
 }
 
 function Root(props) {
@@ -44,9 +49,8 @@ function Root(props) {
   const [user] = useAuthState(auth);
 
   return (
-    <div className='text'>
+    <div className='text min-w-fit'>
       <Header />
-
       <div className='bg px-main py-10 pb-20 flex-grow' style={{ minHeight: "calc(100vh - 17.5rem)" }}>
         {user ? (
           <main className='flex flex-col gap-4'>{children || <Outlet />}</main>

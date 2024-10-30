@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 // Firebase
 import { auth, db, storage } from '../../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, getDoc } from 'firebase/firestore';
 import { ref, listAll, getDownloadURL, deleteObject } from 'firebase/storage';
 
 // Components
@@ -19,48 +19,63 @@ export default function MyRecipe() {
   const [user] = useAuthState(auth);
   const [editing, setEditing] = useState(false);
   const { id } = useParams();
-
-  const [recipe, setRecipe] = useState(null);
-  const [photoURLs, setPhotoURLs] = useState([]);
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) return;
+  const [recipe, setRecipe] = useState(null);
+  const [photoURL, setPhotoURL] = useState([]);
+  const [error, setError] = useState(null);
 
-    const recipeRef = doc(db, 'users', user.uid, 'recipes', id);
-    const unsubscribe = onSnapshot(recipeRef, (doc) => {
-      if (doc.exists()) {
-        const recipeNoId = doc.data();
-        recipeNoId.id = doc.id;
-        setRecipe(recipeNoId);
-      } else {
-        setRecipe(null);
-        // go to 404 page and pass the error message
-        navigate('/404', { state: { error: 'Recipe not found' } });
+  // UseEffect to fetch the recipe from the database and call fetchPhotoURL
+  useEffect(() => {
+    async function fetchRecipe() {
+      try {
+        const recipeRef = doc(db, "users", user.uid, 'recipes', id);
+        const docSnap = await getDoc(recipeRef);
+
+        if (docSnap.exists()) {
+          const recipeNoId = docSnap.data();
+          recipeNoId.id = docSnap.id;
+          setRecipe(recipeNoId);
+        } else {
+          // Recipe doesn't exist or user doesn't have access
+          throw new Error('Recipe not found.');
+        }
+      } catch (err) {
+        setError(err);
+        navigate('/404', {
+          state: {
+            code: 404,
+            error: err.message
+          }
+        }); // Navigate to the 404 error page
       }
-    });
+    }
 
-    return () => unsubscribe();
-  }, [user, id, navigate]);
+    fetchRecipe();
+  }, [id, user.uid, navigate]);
 
   useEffect(() => {
     if (!user) return;
-  
-    fetchPhotoURLs();
+
+    // fetch the photo URL after a recipe is successfully fetched
+    fetchPhotoURL();
   }, [user, id]);
 
-  const fetchPhotoURLs = async () => {
+  const fetchPhotoURL = async () => {
     try {
       const storageRef = ref(storage, `users/${user.uid}/recipes/${id}`);
       const result = await listAll(storageRef);
-      const urls = await Promise.all(result.items.map(async (item) => {
-        const url = await getDownloadURL(item);
-        return { id: item.name, url };
-      }));
-      setPhotoURLs(urls);
+
+      if (result.items.length > 0) {
+        const firstItem = result.items[0];
+        const downloadURL = await getDownloadURL(firstItem);
+        const urlOBJ = { id: firstItem.name, url: downloadURL };
+        setPhotoURL(urlOBJ);
+      } else {
+        setPhotoURL([]); // No photos found
+      }
     } catch (error) {
-      console.error('Error fetching photo URLs:', error);
+      console.error('Error fetching photo URL:', error);
     }
   };
 
@@ -70,11 +85,11 @@ export default function MyRecipe() {
       await deleteObject(photoRef);
 
       // delete the photo from the array
-      const newPhotoURLs = [...photoURLs];
-      newPhotoURLs.splice(index, 1);
+      const newPhotoURL = [...photoURL];
+      newPhotoURL.splice(index, 1);
 
-      // update photoURLs state
-      setPhotoURLs(newPhotoURLs);
+      // update photoURL state
+      setPhotoURL(newPhotoURL);
     } catch (error) {
       console.error('Error deleting photo:', error);
     }
@@ -83,9 +98,9 @@ export default function MyRecipe() {
   return (
     <PageDisplay>
       {editing ?
-        <EditRecipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs} handleDeletePhoto={handleDeletePhoto} fetchPhotoURLs={fetchPhotoURLs} />
+        <EditRecipe recipe={recipe} setEditing={setEditing} photoURL={photoURL} handleDeletePhoto={handleDeletePhoto} fetchPhotoURL={fetchPhotoURL} />
         :
-        <Recipe recipe={recipe} setEditing={setEditing} photoURLs={photoURLs}  />
+        <Recipe recipe={recipe} setEditing={setEditing} photoURL={photoURL} />
       }
     </PageDisplay>
   );

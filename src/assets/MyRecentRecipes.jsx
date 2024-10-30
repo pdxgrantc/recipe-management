@@ -60,6 +60,8 @@ export default function MyRecentRecipes({ numRecipes }) {
     }, [recipes, user]);
 
     return (
-        <MyRecipeList recipes={recipesWithThumbnails} />
+        <>
+            <MyRecipeList recipes={recipesWithThumbnails} />
+        </>
     );
 }
